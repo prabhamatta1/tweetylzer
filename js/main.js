@@ -33,19 +33,17 @@ $(function() {
                     $('#query').prepend(query);
                     $('#relatedTags').show();
 
-                    var entArr = [];
-                    var hash = [];
+                    var hash = []; //get the hashtags for each tweet
                  
                     for(var i = 0; i < tweets.length; i++)
                     {
                         var tags = tweets[i].text;
-                        entArr.push(tweets[i].entities);
-                        hash.push(entArr[i].hashtags);
+                        hash.push(tweets[i].entities.hashtags);
                 
                         //$('#tags').append('<p>'+ tags + '</p>')
                     }
 
-                    var hashtxt = [];
+                    var hashtxt = []; //an array of all the hashtags related to a particular search query
 
                     for (var j=0; j < hash.length; j++)
                     {
@@ -54,9 +52,9 @@ $(function() {
                             hashtxt.push(hash[j][k].text.toLowerCase());
                         }
                     }
-                    console.log(hashtxt);
-                    var tagArray = [];
-                    var tagFreq = {};
+
+                    var tagArray = []; //an array of hashtags (without duplicates) related to a particular search query
+                    var tagFreq = {}; //Key value pairs. hashtag is the key and frequency is the value
 
                     for (var x=0; x < hashtxt.length; x++)
                     {
@@ -80,7 +78,6 @@ $(function() {
                     $('#tags').append('<p>'+ z + ' (' + tagFreq[z] + ')' + '</p>')
                 }
                 
-                console.log(tagFreq);
                 $('#tags').fadeTo('slow', 1);
             }); 
 
