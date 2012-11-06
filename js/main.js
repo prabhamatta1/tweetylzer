@@ -32,15 +32,55 @@ $(function() {
 
                     $('#query').prepend(query);
                     $('#relatedTags').show();
+
+                    var entArr = [];
+                    var hash = [];
                  
                     for(var i = 0; i < tweets.length; i++)
                     {
                         var tags = tweets[i].text;
+                        entArr.push(tweets[i].entities);
+                        hash.push(entArr[i].hashtags);
                 
-                        $('#tags').append('<p>'+ tags + '</p>')
+                        //$('#tags').append('<p>'+ tags + '</p>')
+                    }
+
+                    var hashtxt = [];
+
+                    for (var j=0; j < hash.length; j++)
+                    {
+                        for (var k=0; k < hash[j].length; k++)
+                        {
+                            hashtxt.push(hash[j][k].text.toLowerCase());
+                        }
+                    }
+                    console.log(hashtxt);
+                    var tagArray = [];
+                    var tagFreq = {};
+
+                    for (var x=0; x < hashtxt.length; x++)
+                    {
+                        if ($.inArray(hashtxt[x], tagArray)==-1)
+                        {
+                            tagArray.push(hashtxt[x]);
+                            tagFreq[hashtxt[x]]=1;
+                        }
+                        else 
+                        {
+                            tagFreq[hashtxt[x]]+=1;
+                        }
+
                     }
 
                 }
+
+                var z;
+                for (z in tagFreq)
+                {
+                    $('#tags').append('<p>'+ z + ' (' + tagFreq[z] + ')' + '</p>')
+                }
+                
+                console.log(tagFreq);
                 $('#tags').fadeTo('slow', 1);
             }); 
 
