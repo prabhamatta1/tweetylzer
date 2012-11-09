@@ -14,7 +14,9 @@ var hashCommon = [];
 var tagCommon = {};
 
 var query;
+var query1,query2;
 var tweets;
+var width = 960, height = 500;
 
 
 $(function() {
@@ -48,6 +50,7 @@ $(function() {
 
                 if(input==0)
                 {
+                    query1 = query;
                     for(var i = 0; i < tweets.length; i++)
                     {
                         hash.push(tweets[i].entities.hashtags);
@@ -92,6 +95,7 @@ $(function() {
 
                 if(input==1)
                 {
+                    query2 = query;
                     for(var i1 = 0; i1 < tweets.length; i1++)
                     {
                         hash1.push(tweets[i1].entities.hashtags);
@@ -162,6 +166,7 @@ $(function() {
                     }
 
                     console.log(tagCommon);
+                    getMap(query1,tagFreq,query2,tagFreq1,tagCommon);
 
 
                 } 
@@ -193,13 +198,112 @@ $(function() {
 
     });
 
-    // Function for when user clicks on a term in #synonyms or #antonyms
-    // or in #suggestions list
+    // Function for when user clicks on a term 
     $(document).on('click', '.term', function(e){
         $('#query').empty();
         $('#relatedTags').hide();
         var query = $(this).html();
         getTweets(query);
     });
+
+    // d3 visualization of tags
+
+    var svg = d3.select("#map").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    var force = d3.layout.force()
+        .gravity(.05)
+        .distance(100)
+        .charge(-100)
+        .size([width, height]);
+
+    function getMap(query1,tagFreq1,query2,tagFreq2,tagCommon){
+        var data ={};
+        var nodept = [];
+        var linkpt = [];
+        nodedict ={};
+        nodedict["name"]=  query1;
+        nodedict["group"]=  1;
+        nodept.push(nodedict);
+        linkdict ={};
+        linkdict["value"] = 1;
+        linkdict["target"] = 0;
+        linkdict["source"] = 1;
+        linkpt.push(linkdict);
+
+        var i=0;
+        for (key1 in tagFreq1){
+
+            nodedict ={};
+            nodedict["name"]=  key1;
+            nodedict["group"]=  1;
+            nodept.push(nodedict);
+            linkdict ={};
+            linkdict["value"] = (i+1) *2;
+            linkdict["target"] = 0
+
+            if (i<tagFreq1.length)
+            {
+              linkdict["source"] = i+1;
+            }
+            else
+            {
+              linkdict["source"] = i;
+            } 
+            linkpt.push(linkdict);
+            i += 1;
+
+          }
+      data["nodes"] = nodept;
+      data["links"] = linkpt;
+      generategraph(data);
+       
+    };
+
+    //generate word-map graph from the data
+    function generategraph(json) {
+
+        force
+        .nodes(json.nodes)
+        .links(json.links)
+        .start();
+
+        var link = svg.selectAll(".link")
+        .data(json.links)
+        .enter().append("line")
+        .attr("class", "link")
+        .attr("stroke-width", 2)
+        .attr("stroke", "#3a3a3d");
+
+        var node = svg.selectAll(".node")
+        .data(json.nodes)
+        .enter().append("g")
+        .attr("class", "node")        
+        .call(force.drag);
+
+        node.append("image")
+        .attr("xlink:href", "img/circle.png")
+        .attr("x", -8)
+        .attr("y", -8)
+        .attr("width", 16)
+        .attr("height", 16);
+
+        node.append("text")
+        .attr("class", "term")
+        .attr("dx", 12)
+        .attr("dy", 7)
+        .on("click", function(d){ mapclick(d.name);})
+        .text(function(d) { return d.name });
+
+        force.on("tick", function() {
+            link.attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+
+            node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        });
+    };
             
 });
