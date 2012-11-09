@@ -10,13 +10,15 @@ var tagArray1 = []; //an array of hashtags (without duplicates) related to a par
 var tagFreq = {}; //Key value pairs. hashtag is the key and frequency is the value
 var tagFreq1 = {}; //Key value pairs. hashtag is the key and frequency is the value
 
+var hashCommon = [];
+var tagCommon = {};
+
 var query;
 var tweets;
 
 
 $(function() {
 
-    
     // =================================================================
     // FUNCTIONS FOR GETTING TWEETS
     // =================================================================
@@ -24,49 +26,32 @@ $(function() {
 
     // function to get the tweets of the query tag
     function getTweets(input) {
-       
+        //tweets URL
+        var tweetURL =  'http://search.twitter.com/search.json?q=%23' + query + '&callback=?&include_entities=true&rpp=100';
+        // var tweetURL =  'http://search.twitter.com/search.json?q=%23' + query + '&callback=?&include_entities=true';
 
+        //get tweets and process
 
-            //tweets URL
-           var tweetURL =  'http://search.twitter.com/search.json?q=' + query + '&callback=?&include_entities=true&rpp=100';
-           // var tweetURL =  'http://search.twitter.com/search.json?q=%23' + query + '&callback=?&include_entities=true';
-
-            //get tweets and process
-
-            $.getJSON(tweetURL, function(json){
-
-                
-
-                tweets = json.results;
-//                console.log(tweets); //tweets logged
-
-  //              alert(tweets.length+"and input is"+input);
-
-
+        $.getJSON(tweetURL, function(json){
+            tweets = json.results;
+            //check to see if we get a response
+            if(tweets.length == 0)
+            {
+                $('#query').append(query + ' does not have any tweets.');
                     
-                //check to see if we get a response
-                if(tweets.length == 0){
-                    $('#query').append(query + ' does not have any tweets.');
-                    
-                }
-                // if we get a response, fill in the tags
-                else {  
+            }
+            // if we get a response, fill in the tags
+            else 
+            {  
+                $('#query').prepend(query);
+                $('#relatedTags').show();
 
-                    $('#query').prepend(query);
-                    $('#relatedTags').show();
-
-                 if(input==0)
-
-                 {
+                if(input==0)
+                {
                     for(var i = 0; i < tweets.length; i++)
                     {
-                  //      tags = tweets[i].text;
                         hash.push(tweets[i].entities.hashtags);
-                
-                        //$('#tags').append('<p>'+ tags + '</p>')
                     }
-
-                    
 
                     for (var j=0; j < hash.length; j++)
                     {
@@ -93,30 +78,23 @@ $(function() {
                        
                        
                     }
-                 console.log("0");
-                 console.log(tagFreq);
+                    console.log("0");
+                    console.log(tagFreq);
                     var z;
 
                     for (z in tagFreq)
+                    {
+                        $('#tags').append('<p>'+ z + ' (' + tagFreq[z] + ')' + '</p>');
+                    }
+
+                    //$('#tags').fadeTo('slow', 1);
+                }
+
+                if(input==1)
                 {
-                    $('#tags').append('<p>'+ z + ' (' + tagFreq[z] + ')' + '</p>');
-                }
-
-            //     $('#tags').fadeTo('slow', 1);
-
-                }
-
-
-                    if(input==1){
-
-                 //   console.log(1);
-                 //   console.log(tweets);
                     for(var i1 = 0; i1 < tweets.length; i1++)
                     {
-                    //    tags1 = tweets[i1].text;
                         hash1.push(tweets[i1].entities.hashtags);
-                
-                        //$('#tags').append('<p>'+ tags + '</p>')
                     }
 
                     
@@ -144,42 +122,40 @@ $(function() {
                             tagFreq1[hashtxt1[x1]]+=1;
                         }
                                         
-                    }
+                    } 
+                    console.log("0");
+                    console.log(tagFreq1);
                     
-
-                 console.log("0");
-                 console.log(tagFreq1);
-                    
-
                     for (z in tagFreq1)
                     {
-                    $('#tags1').append('<p>'+ z + ' (' + tagFreq1[z] + ')' + '</p>');
+                        $('#tags1').append('<p>'+ z + ' (' + tagFreq1[z] + ')' + '</p>');
                     }
 
-                    } 
-                 }   
-                    
-                });      
-                    
-                         
-                
-            
-        
+                    for (var i=0; i<hashtxt.length; i++)
+                    {
+                        if ($.inArray(hashtxt[i], hashtxt1) > -1)
+                        {
+                            if ($.inArray(hashtxt[i], hashCommon) == -1)
+                            {
+                                hashCommon.push(hashtxt[i]);
+                            }
+                        }
+                    }
+
+                    console.log("5");
+                    console.log(hashCommon);
+
+                } 
+            }   
+        });      
     }
 
-    
-
-  
     // =================================================================
     // EVENT FUNCTIONS
     // =================================================================
-
-      
-
-
+   
     $('#showme').on('click',function(e){
 
-        alert("blah");
         $('#searchField').blur();
         $('#query').empty();
         $('#relatedTags').hide();
@@ -188,7 +164,6 @@ $(function() {
         $('#tags').empty();
         getTweets(0);
 
-        alert("blah1");
         $('#searchField1').blur();
         $('#query').empty();
         $('#relatedTags').hide();
@@ -197,7 +172,7 @@ $(function() {
         $('#tags1').empty();
         getTweets(1);
 
-        });
+    });
 
     // Function for when user clicks on a term in #synonyms or #antonyms
     // or in #suggestions list
@@ -208,6 +183,4 @@ $(function() {
         getTweets(query);
     });
             
-    
-
 });
