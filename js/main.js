@@ -1,6 +1,7 @@
 var hash = []; //get the hashtags for each tweet
 var hash1 = []; //get the hashtags for each tweet
-var tags;
+//var tags;
+//var tags1;
 var hashtxt = []; //an array of all the hashtags related to a particular search query
 var hashtxt1 = []; //an array of all the hashtags related to a particular search query
 
@@ -8,6 +9,10 @@ var tagArray = []; //an array of hashtags (without duplicates) related to a part
 var tagArray1 = []; //an array of hashtags (without duplicates) related to a particular search query
 var tagFreq = {}; //Key value pairs. hashtag is the key and frequency is the value
 var tagFreq1 = {}; //Key value pairs. hashtag is the key and frequency is the value
+
+var query;
+var tweets;
+
 
 $(function() {
 
@@ -18,25 +23,27 @@ $(function() {
 
 
     // function to get the tweets of the query tag
-    function getTweets(query,input) {
+    function getTweets(input) {
+       
 
-       alert("input is"+input);
 
-        $('#tags').fadeTo('slow', 0, function(){  
             //tweets URL
-           var tweetURL =  'http://search.twitter.com/search.json?q=%23' + query + '&callback=?&include_entities=true&rpp=100';
+           var tweetURL =  'http://search.twitter.com/search.json?q=' + query + '&callback=?&include_entities=true&rpp=100';
            // var tweetURL =  'http://search.twitter.com/search.json?q=%23' + query + '&callback=?&include_entities=true';
 
             //get tweets and process
 
             $.getJSON(tweetURL, function(json){
-                tweets = json.results;
-                
-                if(input==0){
-                    $('#tags').empty();}
-                if(input==1){
-                    $('#tags1').empty();}
 
+                
+
+                tweets = json.results;
+//                console.log(tweets); //tweets logged
+
+  //              alert(tweets.length+"and input is"+input);
+
+
+                    
                 //check to see if we get a response
                 if(tweets.length == 0){
                     $('#query').append(query + ' does not have any tweets.');
@@ -48,11 +55,12 @@ $(function() {
                     $('#query').prepend(query);
                     $('#relatedTags').show();
 
+                 if(input==0)
 
-                 
+                 {
                     for(var i = 0; i < tweets.length; i++)
                     {
-                        tags = tweets[i].text;
+                  //      tags = tweets[i].text;
                         hash.push(tweets[i].entities.hashtags);
                 
                         //$('#tags').append('<p>'+ tags + '</p>')
@@ -68,11 +76,11 @@ $(function() {
                         }
                     }
 
-                    var tagArray = []; //an array of hashtags (without duplicates) related to a particular search query
-                    var tagFreq = {}; //Key value pairs. hashtag is the key and frequency is the value
+                    hashtxt.sort();
 
                     for (var x=0; x < hashtxt.length; x++)
                     {
+                       
                         if ($.inArray(hashtxt[x], tagArray)==-1)
                         {
                             tagArray.push(hashtxt[x]);
@@ -82,74 +90,114 @@ $(function() {
                         {
                             tagFreq[hashtxt[x]]+=1;
                         }
-
+                       
+                       
                     }
+                 console.log("0");
+                 console.log(tagFreq);
+                    var z;
 
-                }
-
-                var z;
-                for (z in tagFreq)
+                    for (z in tagFreq)
                 {
-                    if(input==0)
+                    $('#tags').append('<p>'+ z + ' (' + tagFreq[z] + ')' + '</p>');
+                }
 
-                        {
-                            $('#tags').append('<p>'+ z + ' (' + tagFreq[z] + ')' + '</p>');
-                        }
-
-                    if(input==1)
-                    {
-                            $('#tags1').append('<p>'+ z + ' (' + tagFreq[z] + ')' + '</p>');
-                    }
-
-             //    alert("here");
-
+            //     $('#tags').fadeTo('slow', 1);
 
                 }
-                
-                $('#tags').fadeTo('slow', 1);
-            }); 
 
-        });
+
+                    if(input==1){
+
+                 //   console.log(1);
+                 //   console.log(tweets);
+                    for(var i1 = 0; i1 < tweets.length; i1++)
+                    {
+                    //    tags1 = tweets[i1].text;
+                        hash1.push(tweets[i1].entities.hashtags);
+                
+                        //$('#tags').append('<p>'+ tags + '</p>')
+                    }
+
+                    
+                    for (var j1=0; j1 < hash1.length; j1++)
+                    {
+                        for (var k1=0; k1 < hash1[j1].length; k1++)
+                        {
+                            hashtxt1.push(hash1[j1][k1].text.toLowerCase());
+                        }
+                    }
+                    
+                    //console.log(hashtxt1);
+                    hashtxt1.sort();
+
+                    for (var x1=0; x1 < hashtxt1.length; x1++)
+                    {
+                       
+                        if ($.inArray(hashtxt1[x1], tagArray1)==-1)
+                        {
+                            tagArray1.push(hashtxt1[x1]);
+                            tagFreq1[hashtxt1[x1]]=1;
+                        }
+                        else 
+                        {
+                            tagFreq1[hashtxt1[x1]]+=1;
+                        }
+                                        
+                    }
+                    
+
+                 console.log("0");
+                 console.log(tagFreq1);
+                    
+
+                    for (z in tagFreq1)
+                    {
+                    $('#tags1').append('<p>'+ z + ' (' + tagFreq1[z] + ')' + '</p>');
+                    }
+
+                    } 
+                 }   
+                    
+                });      
+                    
+                         
+                
+            
+        
     }
 
-  
+    
 
   
     // =================================================================
     // EVENT FUNCTIONS
     // =================================================================
 
-    // Function for when user submits search form
-    $('#searchForm').on('submit', function(e){
-    
-        alert("form0");
-        e.preventDefault();
-        
-        //hides keyboard in iOS after hitting go
+      
+
+
+    $('#showme').on('click',function(e){
+
+        alert("blah");
         $('#searchField').blur();
         $('#query').empty();
         $('#relatedTags').hide();
-        var query = $('#searchField').val();
+        query = $('#searchField').val();
         query = query.toLowerCase();            
-        getTweets(query,0);
+        $('#tags').empty();
+        getTweets(0);
 
-    });
-
-    $('#searchForm1').on('submit', function(e){
-    
-        alert("form1");
-        e.preventDefault();
-        
-        //hides keyboard in iOS after hitting go
-        $('#searchField').blur();
+        alert("blah1");
+        $('#searchField1').blur();
         $('#query').empty();
         $('#relatedTags').hide();
-        var query = $('#searchField1').val();
+        query = $('#searchField1').val();
         query = query.toLowerCase();            
-        getTweets(query,1);
+        $('#tags1').empty();
+        getTweets(1);
 
-    });
-
+        });
 
     // Function for when user clicks on a term in #synonyms or #antonyms
     // or in #suggestions list
@@ -158,7 +206,7 @@ $(function() {
         $('#relatedTags').hide();
         var query = $(this).html();
         getTweets(query);
-    })
+    });
             
     
 
