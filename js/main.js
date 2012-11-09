@@ -144,6 +144,25 @@ $(function() {
 
                     console.log("5");
                     console.log(hashCommon);
+                    var temp1, temp2;
+
+                    for (var j=0; j<hashCommon.length; j++)
+                    {
+                        temp1 = tagFreq[hashCommon[j]];
+                        temp2 = tagFreq1[hashCommon[j]];
+
+                        if (temp1 < temp2)
+                        {
+                            tagCommon[hashCommon[j]] = temp1;
+                        }
+                        else
+                        {
+                            tagCommon[hashCommon[j]] = temp2;
+                        }
+                    }
+
+                    console.log(tagCommon);
+
 
                 } 
             }   
