@@ -4,7 +4,7 @@ theme url:
 
 */
 
-html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, del, dfn, em, font, img, ins, kbd, q, s, samp, acronym, address, big, cite, code,small, strike, strong, sub, sup, tt, var,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td {font-size:100%;font-family:inherit;vertical-align:baseline;margin:0;padding:0;border:0;outline:0;font-weight:inherit;font-style:inherit}caption, th, td {text-align:left;font-weight:normal}table {border-collapse:separate;border-spacing:0}blockquote:before,blockquote:after,q:before,q:after {content: ""}blockquote, q {quotes: "" ""}{margin:0;padding:0}
+html, body, div, span, applet, object, iframe, blockquote, pre,a, abbr, del, dfn, em, font, img, ins, kbd, q, s, samp, acronym, address, big, cite, code,small, strike, strong, sub, sup, tt, var,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td {font-size:100%;font-family:inherit;vertical-align:baseline;margin:0;padding:0;border:0;outline:0;font-weight:inherit;font-style:inherit}caption, th, td {text-align:left;font-weight:normal}table {border-collapse:separate;border-spacing:0}blockquote:before,blockquote:after,q:before,q:after {content: ""}blockquote, q {quotes: "" ""}{margin:0;padding:0}
 
 /* shades*/
 #top,#bottom,#left,#right{z-index:-100}#left,#right{position:fixed;top:0;bottom:0;width:88px}#left{left:0;background:url(img/left.png) left center repeat-y}#right{right:0;background:url(img/right.png) right center repeat-y}#top,#bottom{position:fixed;left:0;right:0;height:88px}#top{top:0;background:url(img/top.png) top center repeat-x}#bottom{bottom:0;background:url(img/bottom.png) bottom center repeat-x}
@@ -57,22 +57,6 @@ a:visited:hover{color:#2a8399}
     border-radius: 25px;
 }
 
-#errorMessage {
-    clear: left;
-    float: left;
-}
-
-#contentContainer
-{
-}
-
-#leftColumn
-{
-    clear: left;
-    float: left;
-    width: 200px;
-    height: 100%;
-}
 
 .tag
 {
@@ -86,10 +70,10 @@ a:visited:hover{color:#2a8399}
     background: #DDDDDD;
 }
 
-#rightColumn
-{
-    margin-left: 200px;
-    min-width: 640px;
-    height: 100%;
+
+svg {
+  background: #eee;
+/*  width: 960px;
+  height: 500px;*/
 }
 

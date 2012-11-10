@@ -1,53 +1,73 @@
-<!DOCTYPE html> 
-<meta charset="utf-8">
-<html>
-	<head>
-		<title> Tag Spatial Socialization</title>
-        <link rel="stylesheet" href="css/bootstrap.css">
-        <link rel="stylesheet" href="css/main.css">
-	</head>
-	 
-	<body>
-	   <div id="container" class="container">
-			<h1 id="logo" class="span4 offset1">Tag Classification</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Social Classification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Social Classification of Twitter Tags">
+    <meta name="author" content="Haroon, Prabha, Rohan">
 
-            <div id="content" class="row">
-				<!-- left page -->
-				<div id="leftPage" class="span6">
-					
-					<!-- row -->
-					<div id ="searchContainer" class="row">		
-						<input id="searchField" type="text" class="span4 offset1" autocapitalize="off" autocomplete="off" placeholder="Search for a word"></input>
-						 <div id="tags">tags</div>
-								
-					</div>
-					<div id ="searchContainer" class="row">
-						<input id="searchField1" type="text" class="span4 offset1" autocapitalize="off" autocomplete="off" placeholder="Search for a another word"></input>
-						 <div id="tags1">tags1</div>
-					</div>			
-					
-				</div>
-				 <input id="showme" type="button" value="getdata"> 
-			
-				<!-- right page -->
-				<div id="rightPage" class="span6">
-					<div class="row">
-						<div class="span4 offset1">
-			                <div id="mapContainer">
-			                	<h3>Visualization</h3>
-			                     <div id="map"></div>
-			                </div>
-						</div>
-					</div>
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    
+    
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
-				</div>
-			</div>
-        </div> <!-- /container -->
-	     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+  </head>
+
+  <body>
+
+    <div class="container">
+      <h2 class="muted">Social Classification of Twitter Tags</h2>
+
+      <div class="masthead">
+        <ul class="nav nav-pills pull-left">
+           <li>   
+            <input id="searchField" type="text" class="offset1" placeholder="Search for a word"></input></li>
+
+          <li>
+            <input id="searchField1" type="text"  class="offset1" placeholder="Search for a another word"></input></li>
+  
+         
+        </ul>
+
+      </div>
+       <button id="showme" class="active offset1" >Analyse Tags</button>  
+        <hr>
+               
+        <h3> Tag1 (tags will be removed once the visualization works) </h3>
+        <div id="tags"></div>
+                        <h3> Tag2 </h3>
+        <div id="tags1"></div>  
+
+
+      <!-- Jumbotron -->
+        <p class="lead">This visualization provides Social classification of two different twitter tags to give insight where they are common and how they are separate from each other</p>
+     
+      <!-- Example row of columns -->
+      <hr>
+             <div id="mapContainer">
+                           <div id="map"></div>
+                      </div>
+ <div id="chart"></div>
+      <script type="text/javascript" src="{{STATIC_URL}}js/choropleth.js"></script>
+
+
+    </div> <!-- /container -->
+
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="js/d3.v2.js"></script>
         <script src="js/main.js"></script>
         
    
-	</body>
+
+  </body>
 </html>
