@@ -20,6 +20,7 @@ var query;
 var query1,query2;
 var tweets;
 var width = 960, height = 700;
+var tempHash = [];
 
     // =================================================================
     // FUNCTIONS FOR GETTING TWEETS
@@ -64,6 +65,7 @@ var width = 960, height = 700;
                         }
                     }
 
+                    tempHash = hashtxt;
                     hashtxt.sort();
 
                     for (var x=0; x < hashtxt.length; x++)
@@ -166,10 +168,22 @@ var width = 960, height = 700;
                     }
 
                     console.log(tagCommon);
-                    console.log(hashtxt);
-                    console.log(hashtxt1);
                     // getMap(query1,tagFreq,query2,tagFreq1,tagCommon);
-                    var hashAll=hashtxt.concat(hashtxt1)
+                    var hashTemp=tempHash.concat(hashtxt1)
+
+                    var x, len = hashTemp.length, hashAll = [], obj = {};
+                    
+                    for (x = 0; x < len; x++) {
+                        obj[hashTemp[x]] = 0;
+                    }
+                    for (x in obj) {
+                        hashAll.push(x);
+                    }
+                    console.log("x");
+                    console.log(tempHash);
+                    console.log(hashtxt1);
+                    console.log(hashAll);
+
                     visualizeBubble(hashtxt,hashtxt1,hashAll);
                     // hello();
 

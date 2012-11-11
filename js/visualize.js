@@ -157,6 +157,7 @@ function AddTopic(name) {
   topic.k = fraction(topic.parties[0].count, topic.parties[1].count);
     if (isNaN(topic.k)) topic.k = .5;
     if (isNaN(topic.x)) topic.x = (1 - topic.k) * width + Math.random();
+    topic.y = (1 - topic.k) * height + Math.random();
     topic.bias = .5 - Math.max(.1, Math.min(.9, topic.k));
   /*force.nodes(data.topics = topics).start();
   updateNodes();
@@ -265,7 +266,17 @@ function updateLabels() {
   label
       .style("width", function(d) { return d.dx + "px"; })
     .select(".g-value")
-      .text(function(d) { return formatShortCount(d.parties[0].count) + " - " + formatShortCount(d.parties[1].count); });
+      .text(function(d) { 
+        if (d.parties[0].count == 0){
+          return formatShortCount(d.parties[1].count);
+        }          
+        else if(d.parties[1].count == 0){
+          return formatShortCount(d.parties[0].count);
+        }          
+        else{
+          return formatShortCount(d.parties[0].count) + " - " + formatShortCount(d.parties[1].count);
+        }     
+      });
 
   // Compute the height of labels when wrapped.
   label.each(function(d) { d.dy = this.getBoundingClientRect().height; });
