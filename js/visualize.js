@@ -105,7 +105,6 @@ d3.select("#g-form")
     .on("submit", submit);
 
 updatecommonTags(data.commonTags);
-hashchange();
 
 // Update the known commonTags.
 function updatecommonTags(commonTags) {
@@ -288,7 +287,7 @@ function linkCommonTag(a) {
 // Simulate forces and update node and label positions on tick.
 function tick(e) {
   node
-      .each(bias(e.alpha * 105))
+      .each(bias(e.alpha * 75))
       .each(collide(.5))
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
@@ -361,7 +360,6 @@ function fraction(a, b) {
 // Update the active commonTag on hashchange, perhaps creating a new commonTag.
 function hashchange() {
   var name = decodeURIComponent(location.hash.substring(1)).trim();
-  // updateActiveCommonTag(name && name != "!" ? findOrAddCommonTag(name) : null);
 }
 
 // Trigger a hashchange on submit.
