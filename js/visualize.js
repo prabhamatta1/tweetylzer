@@ -1,42 +1,38 @@
 var data = {};
 (function() {
 
-data.parties = [
-];
+data.taglists = [];
 
-data.topics = [
-].map(topic);
+data.commonTags = [];
 
-data.party = function(name, text){
-  var p = {name: name, speeches: text, id: data.parties.length};
-  data.parties.push(p);
+data.taglist = function(name, text){
+  var p = {name: name, tags: text, id: data.taglists.length};
+  data.taglists.push(p);
   return p;
 }
 
-data.topic = function(name) {
-  var t = topic({name: name}, data.topics.length);
-  data.topics.push(t);
+data.commonTag = function(name) {
+  var t = commonTag({name: name}, data.commonTags.length);
+  data.commonTags.push(t);
   return t;
 };
 
-function topic(topic, i) {
-  topic.id = i;
-  topic.count = 0;
-  topic.cx = topic.x;
-  topic.cy = topic.y;
+function commonTag(commonTag, i) {
+  commonTag.id = i;
+  commonTag.count = 0;
 
-  topic.parties = data.parties.map(function(party) {
+  commonTag.taglists = data.taglists.map(function(taglist) {
     var count = 0;
 
-    var text = party.speeches;
+    var text = taglist.tags;
       
-    count = text.split(topic.name).length - 1;
+    count = text.split(commonTag.name).length - 1;
 
-    topic.count += count;
+    commonTag.count += count;
     return {count: count};
   });
 
-  return topic;
+  return commonTag;
 }
 
 // taglist1 = ["fun", "fun", "fun", "fun", "fun", "fun", "rain", "rain", "good", "fun", "fun", "fun", "good", "good", "rain", "one", "one", "one"];
@@ -55,7 +51,7 @@ var collisionPadding = 4,
     clipPadding = 4,
     minRadius = 16, // minimum collision radius
     maxRadius = 65, // also determines collision search radius
-    activeTopic; // currently-displayed topic
+    activeCommonTag; // currently-displayed commonTag
 
 var formatShortCount = d3.format(",.0f"),
     formatLongCount = d3.format(".1f"),
@@ -74,17 +70,17 @@ for (var i=0; i < taglist2.length; i++)
   tagStr2 = tagStr2 + " " + taglist2[i];
 }
 
-AddParty("keyword1", tagStr1);
-AddParty("keyword2", tagStr2);
+AddTag("keyword1", tagStr1);
+AddTag("keyword2", tagStr2);
 
 
 for (var j=0; j<tagAll.length;j++)
 {
-  AddTopic(tagAll[j]);
+  AddCommonTag(tagAll[j]);
 }
 
 var r = d3.scale.sqrt()
-    .domain([0, d3.max(data.topics, function(d) { return d.count; })])
+    .domain([0, d3.max(data.commonTags, function(d) { return d.count; })])
     .range([0, maxRadius]);
 
 var force = d3.layout.force()
@@ -108,72 +104,72 @@ d3.select(window)
 d3.select("#g-form")
     .on("submit", submit);
 
-updateTopics(data.topics);
+updatecommonTags(data.commonTags);
 hashchange();
 
-// Update the known topics.
-function updateTopics(topics) {
-  topics.forEach(function(d) {
+// Update the known commonTags.
+function updatecommonTags(commonTags) {
+  commonTags.forEach(function(d) {
     d.r = r(d.count);
     d.cr = Math.max(minRadius, d.r);
-    d.k = fraction(d.parties[0].count, d.parties[1].count);
+    d.k = fraction(d.taglists[0].count, d.taglists[1].count);
     if (isNaN(d.k)) d.k = .5;
     if (isNaN(d.x)) d.x = (1 - d.k) * width + Math.random();
     d.bias = .5 - Math.max(.1, Math.min(.9, d.k));
   });
-  force.nodes(data.topics = topics).start();
+  force.nodes(data.commonTags = commonTags).start();
   updateNodes();
   updateLabels();
   tick({alpha: 0}); // synchronous update
 }
 
-// Returns the topic matching the specified name, approximately.
-// If no matching topic is found, returns undefined.
-function findTopic(name) {
-  for (var i = 0, n = data.topics.length, t; i < n; ++i) {
-    if ((t = data.topics[i]).name === name) {
+// Returns the commonTag matching the specified name, approximately.
+// If no matching commonTag is found, returns undefined.
+function findCommonTag(name) {
+  for (var i = 0, n = data.commonTags.length, t; i < n; ++i) {
+    if ((t = data.commonTags[i]).name === name) {
       return t;
     }
   }
 }
 
-// Returns the topic matching the specified name, approximately.
-// If no matching topic is found, a new one is created.
-function findOrAddTopic(name) {
-  var topic = findTopic(name);
-  if (!topic) {
-    topic = data.topic(name);
-    topic.y = 0;
-    updateTopics(data.topics);
+// Returns the commonTag matching the specified name, approximately.
+// If no matching commonTag is found, a new one is created.
+function findOrAddCommonTag(name) {
+  var commonTag = findCommonTag(name);
+  if (!commonTag) {
+    commonTag = data.commonTag(name);
+    commonTag.y = 0;
+    updatecommonTags(data.commonTags);
   }
-  return topic;
+  return commonTag;
 }
 
-function AddTopic(name) {
-  topic = data.topic(name);
-  topic.y = 0;
-  topic.r = topic.count;
-  topic.cr = Math.max(minRadius, topic.r);
-  topic.k = fraction(topic.parties[0].count, topic.parties[1].count);
-    if (isNaN(topic.k)) topic.k = .5;
-    if (isNaN(topic.x)) topic.x = (1 - topic.k) * width + Math.random();
-    topic.y = (1 - topic.k) * height + Math.random();
-    topic.bias = .5 - Math.max(.1, Math.min(.9, topic.k));
-  /*force.nodes(data.topics = topics).start();
+function AddCommonTag(name) {
+  commonTag = data.commonTag(name);
+  commonTag.y = 0;
+  commonTag.r = commonTag.count;
+  commonTag.cr = Math.max(minRadius, commonTag.r);
+  commonTag.k = fraction(commonTag.taglists[0].count, commonTag.taglists[1].count);
+    if (isNaN(commonTag.k)) commonTag.k = .5;
+    if (isNaN(commonTag.x)) commonTag.x = (1 - commonTag.k) * width + Math.random();
+    commonTag.y = (1 - commonTag.k) * height + Math.random();
+    commonTag.bias = .5 - Math.max(.1, Math.min(.9, commonTag.k));
+  /*force.nodes(data.commonTags = commonTags).start();
   updateNodes();
   updateLabels();
   tick({alpha: 0}); // synchronous update*/
-  return topic;
+  return commonTag;
 }
 
-function AddParty(name, text){
-  party = data.party(name, text);
-  return party;
+function AddTag(name, text){
+  taglist = data.taglist(name, text);
+  return taglist;
 }
 
 // Update the displayed nodes.
 function updateNodes() {
-  node = node.data(data.topics, function(d) { return d.name; });
+  node = node.data(data.commonTags, function(d) { return d.name; });
 
   node.exit().remove();
 
@@ -181,7 +177,7 @@ function updateNodes() {
       .attr("class", "g-node")
       .attr("xlink:href", function(d) { return "#" + encodeURIComponent(d.name); })
       .call(force.drag)
-      .call(linkTopic);
+      .call(linkCommonTag);
 
   var democratEnter = nodeEnter.append("g")
       .attr("class", "g-democrat");
@@ -236,7 +232,7 @@ function updateNodes() {
 
 // Update the displayed node labels.
 function updateLabels() {
-  label = label.data(data.topics, function(d) { return d.name; });
+  label = label.data(data.commonTags, function(d) { return d.name; });
 
   label.exit().remove();
 
@@ -244,7 +240,7 @@ function updateLabels() {
       .attr("class", "g-label")
       .attr("href", function(d) { return "#" + encodeURIComponent(d.name); })
       .call(force.drag)
-      .call(linkTopic);
+      .call(linkCommonTag);
 
   labelEnter.append("div")
       .attr("class", "g-name")
@@ -267,14 +263,14 @@ function updateLabels() {
       .style("width", function(d) { return d.dx + "px"; })
     .select(".g-value")
       .text(function(d) { 
-        if (d.parties[0].count == 0){
-          return formatShortCount(d.parties[1].count);
+        if (d.taglists[0].count == 0){
+          return formatShortCount(d.taglists[1].count);
         }          
-        else if(d.parties[1].count == 0){
-          return formatShortCount(d.parties[0].count);
+        else if(d.taglists[1].count == 0){
+          return formatShortCount(d.taglists[0].count);
         }          
         else{
-          return formatShortCount(d.parties[0].count) + " - " + formatShortCount(d.parties[1].count);
+          return formatShortCount(d.taglists[0].count) + " - " + formatShortCount(d.taglists[1].count);
         }     
       });
 
@@ -282,8 +278,8 @@ function updateLabels() {
   label.each(function(d) { d.dy = this.getBoundingClientRect().height; });
 }
 
-// Assign event handlers to topic links.
-function linkTopic(a) {
+// Assign event handlers to commonTag links.
+function linkCommonTag(a) {
   a   .on("click", click)
       .on("mouseover", mouseover)
       .on("mouseout", mouseout);
@@ -299,14 +295,9 @@ function tick(e) {
   label
       .style("left", function(d) { return (d.x - d.dx / 2) + "px"; })
       .style("top", function(d) { return (d.y - d.dy / 2) + "px"; });
-
-  arrow.style("stroke-opacity", function(d) {
-    var dx = d.x - d.cx, dy = d.y - d.cy;
-    return dx * dx + dy * dy < d.r * d.r ? 1: 0;
-  });
 }
 
-// A left-right bias causing topics to orient by party preference.
+// A left-right bias causing commonTags to orient by taglist preference.
 function bias(alpha) {
   return function(d) {
     d.x += d.bias * alpha;
@@ -315,7 +306,7 @@ function bias(alpha) {
 
 // Resolve collisions between nodes.
 function collide(alpha) {
-  var q = d3.geom.quadtree(data.topics);
+  var q = d3.geom.quadtree(data.commonTags);
   return function(d) {
     var r = d.cr + maxRadius + collisionPadding,
         nx1 = d.x - r,
@@ -367,10 +358,10 @@ function fraction(a, b) {
   return k;
 }
 
-// Update the active topic on hashchange, perhaps creating a new topic.
+// Update the active commonTag on hashchange, perhaps creating a new commonTag.
 function hashchange() {
   var name = decodeURIComponent(location.hash.substring(1)).trim();
-  // updateActiveTopic(name && name != "!" ? findOrAddTopic(name) : null);
+  // updateActiveCommonTag(name && name != "!" ? findOrAddCommonTag(name) : null);
 }
 
 // Trigger a hashchange on submit.
@@ -381,14 +372,14 @@ function submit() {
   d3.event.preventDefault();
 }
 
-// Clear the active topic when clicking on the chart background.
+// Clear the active commonTag when clicking on the chart background.
 function clear() {
   location.replace("#!");
 }
 
 // Rather than flood the browser history, use location.replace.
 function click(d) {
-  location.replace("#" + encodeURIComponent(d === activeTopic ? "!" : d.name));
+  location.replace("#" + encodeURIComponent(d === activeCommonTag ? "!" : d.name));
   d3.event.preventDefault();
 }
 

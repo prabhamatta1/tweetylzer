@@ -31,7 +31,6 @@ var tempHash = [];
     function getTweets(input) {
         //tweets URL
         var tweetURL =  'http://search.twitter.com/search.json?q=%23' + query + '&callback=?&include_entities=true&rpp=100';
-        // var tweetURL =  'http://search.twitter.com/search.json?q=%23' + query + '&callback=?&include_entities=true';
 
         //get tweets and process
 
@@ -61,38 +60,18 @@ var tempHash = [];
                     {
                         for (var k=0; k < hash[j].length; k++)
                         {
-                            hashtxt.push(hash[j][k].text.toLowerCase());
+                            if (hash[j][k].text.length > 2)
+                            {
+                                hashtxt.push(hash[j][k].text.toLowerCase());
+                            }                            
                         }
                     }
 
                     tempHash = hashtxt;
-                    hashtxt.sort();
 
-                    for (var x=0; x < hashtxt.length; x++)
-                    {
-                       
-                        if ($.inArray(hashtxt[x], tagArray)==-1)
-                        {
-                            tagArray.push(hashtxt[x]);
-                            tagFreq[hashtxt[x]]=1;
-                        }
-                        else 
-                        {
-                            tagFreq[hashtxt[x]]+=1;
-                        }
-                       
-                       
-                    }
-                    console.log("0");
-                    console.log(tagFreq);
-                    var z;
-
-                    for (z in tagFreq)
-                    {
-                   //     $('#tags').append('<p>'+ z + ' (' + tagFreq[z] + ')' + '</p>');
-                    }
-
-                    //$('#tags').fadeTo('slow', 1);
+                    console.log("hashtxt loop1");
+                    console.log(hashtxt);
+                    //hashtxt.sort();
                 }
 
                 if(input==1)
@@ -108,87 +87,28 @@ var tempHash = [];
                     {
                         for (var k1=0; k1 < hash1[j1].length; k1++)
                         {
-                            hashtxt1.push(hash1[j1][k1].text.toLowerCase());
-                        }
-                    }
-                    
-                    //console.log(hashtxt1);
-                    hashtxt1.sort();
-
-                    for (var x1=0; x1 < hashtxt1.length; x1++)
-                    {
-                       
-                        if ($.inArray(hashtxt1[x1], tagArray1)==-1)
-                        {
-                            tagArray1.push(hashtxt1[x1]);
-                            tagFreq1[hashtxt1[x1]]=1;
-                        }
-                        else 
-                        {
-                            tagFreq1[hashtxt1[x1]]+=1;
-                        }
-                                        
-                    } 
-                    console.log("0");
-                    console.log(tagFreq1);
-                    
-                    for (z in tagFreq1)
-                    {
-                     //   $('#tags1').append('<p>'+ z + ' (' + tagFreq1[z] + ')' + '</p>');
-                    }
-
-                    for (var i=0; i<hashtxt.length; i++)
-                    {
-                        if ($.inArray(hashtxt[i], hashtxt1) > -1)
-                        {
-                            if ($.inArray(hashtxt[i], hashCommon) == -1)
+                            if (hash1[j1][k1].text.length > 2)
                             {
-                                hashCommon.push(hashtxt[i]);
-                            }
+                                hashtxt1.push(hash1[j1][k1].text.toLowerCase());
+                            }  
                         }
                     }
-
-                    console.log("5");
-                    console.log(hashCommon);
-                    var temp1, temp2;
-
-                    for (var j=0; j<hashCommon.length; j++)
-                    {
-                        temp1 = tagFreq[hashCommon[j]];
-                        temp2 = tagFreq1[hashCommon[j]];
-
-                        if (temp1 < temp2)
-                        {
-                            tagCommon[hashCommon[j]] = temp1;
-                        }
-                        else
-                        {
-                            tagCommon[hashCommon[j]] = temp2;
-                        }
-                    }
-
-                    console.log(tagCommon);
-                    // getMap(query1,tagFreq,query2,tagFreq1,tagCommon);
+                        
+                    //hashtxt1.sort();
+                                        
                     var hashTemp=tempHash.concat(hashtxt1)
 
                     var x, len = hashTemp.length, hashAll = [], obj = {};
-                    
+                        
                     for (x = 0; x < len; x++) {
                         obj[hashTemp[x]] = 0;
                     }
                     for (x in obj) {
                         hashAll.push(x);
                     }
-                    console.log("x");
-                    console.log(tempHash);
-                    console.log(hashtxt1);
-                    console.log(hashAll);
 
-                    visualizeBubble(hashtxt,hashtxt1,hashAll);
-                    // hello();
-
-
-                } 
+                    visualizeBubble(tempHash,hashtxt1,hashAll);
+                }
             }   
         });      
     }
