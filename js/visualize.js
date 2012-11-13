@@ -53,10 +53,6 @@ var collisionPadding = 4,
     maxRadius = 65, // also determines collision search radius
     activeCommonTag; // currently-displayed commonTag
 
-var formatShortCount = d3.format(",.0f"),
-    formatLongCount = d3.format(".1f"),
-    formatCount = function(d) { return (d < 10 ? formatLongCount : formatShortCount)(d); };
-
 tagStr1 = "";
 tagStr2 = "";
 
@@ -263,13 +259,13 @@ function updateLabels() {
     .select(".g-value")
       .text(function(d) { 
         if (d.taglists[0].count == 0){
-          return formatShortCount(d.taglists[1].count);
+          return d.taglists[1].count;
         }          
         else if(d.taglists[1].count == 0){
-          return formatShortCount(d.taglists[0].count);
+          return d.taglists[0].count;
         }          
         else{
-          return formatShortCount(d.taglists[0].count) + " - " + formatShortCount(d.taglists[1].count);
+          return d.taglists[0].count + " - " + d.taglists[1].count;
         }     
       });
 
