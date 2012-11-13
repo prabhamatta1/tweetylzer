@@ -110,6 +110,7 @@ function updatecommonTags(commonTags) {
     d.k = fraction(d.taglists[0].count, d.taglists[1].count);
     if (isNaN(d.k)) d.k = .5;
     if (isNaN(d.x)) d.x = (1 - d.k) * width + Math.random();
+    d.y = (1 - commonTag.k) * height + Math.random();
     d.bias = .5 - Math.max(.1, Math.min(.9, d.k));
   });
   force.nodes(data.commonTags = commonTags).start();
@@ -118,42 +119,8 @@ function updatecommonTags(commonTags) {
   tick({alpha: 0}); // synchronous update
 }
 
-// Returns the commonTag matching the specified name, approximately.
-// If no matching commonTag is found, returns undefined.
-function findCommonTag(name) {
-  for (var i = 0, n = data.commonTags.length, t; i < n; ++i) {
-    if ((t = data.commonTags[i]).name === name) {
-      return t;
-    }
-  }
-}
-
-// Returns the commonTag matching the specified name, approximately.
-// If no matching commonTag is found, a new one is created.
-function findOrAddCommonTag(name) {
-  var commonTag = findCommonTag(name);
-  if (!commonTag) {
-    commonTag = data.commonTag(name);
-    commonTag.y = 0;
-    updatecommonTags(data.commonTags);
-  }
-  return commonTag;
-}
-
 function AddCommonTag(name) {
   commonTag = data.commonTag(name);
-  commonTag.y = 0;
-  commonTag.r = commonTag.count;
-  commonTag.cr = Math.max(minRadius, commonTag.r);
-  commonTag.k = fraction(commonTag.taglists[0].count, commonTag.taglists[1].count);
-    if (isNaN(commonTag.k)) commonTag.k = .5;
-    if (isNaN(commonTag.x)) commonTag.x = (1 - commonTag.k) * width + Math.random();
-    commonTag.y = (1 - commonTag.k) * height + Math.random();
-    commonTag.bias = .5 - Math.max(.1, Math.min(.9, commonTag.k));
-  /*force.nodes(data.commonTags = commonTags).start();
-  updateNodes();
-  updateLabels();
-  tick({alpha: 0}); // synchronous update*/
   return commonTag;
 }
 
