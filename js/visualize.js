@@ -35,11 +35,6 @@ function commonTag(commonTag, i) {
   return commonTag;
 }
 
-// taglist1 = ["fun", "fun", "fun", "fun", "fun", "fun", "rain", "rain", "good", "fun", "fun", "fun", "good", "good", "rain", "one", "one", "one"];
-// taglist2 = ["fun", "fun", "rain", "rain", "rain", "fun", "fun", "fun", "rain", "rain", "rain", "rain", "rain", "fun", "fun", "good", "good", "rain", "two", "two"];
-// tagAll = ["one", "two", "fun", "good", "rain"];
-// visualizeBubble(taglist1,taglist2,tagAll);
-
 })();
 
 function visualizeBubble(taglist1,taglist2,tagAll) {
@@ -110,7 +105,7 @@ function updatecommonTags(commonTags) {
     d.k = fraction(d.taglists[0].count, d.taglists[1].count);
     if (isNaN(d.k)) d.k = .5;
     if (isNaN(d.x)) d.x = (1 - d.k) * width + Math.random();
-    d.y = (1 - commonTag.k) * height + Math.random();
+    d.y = (1 - d.k) * height + Math.random();
     d.bias = .5 - Math.max(.1, Math.min(.9, d.k));
   });
   force.nodes(data.commonTags = commonTags).start();
