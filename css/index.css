@@ -51,22 +51,22 @@
   top: 7px;
 }
 
-.g-democrat.g-arrow {
+.g-tagList1.g-arrow {
   left: 170px;
   padding-left: 40px;
 }
 
-.g-arrow.g-democrat:before {
+.g-arrow.g-tagList1:before {
   content: "â†";
   right: 100px;
 }
 
-.g-republican.g-arrow {
+.g-tagList2.g-arrow {
   right: 170px;
   padding-right: 40px;
 }
 
-.g-arrow.g-republican:before {
+.g-arrow.g-tagList2:before {
   content: "â†’";
   left: 100px;
 }
@@ -82,7 +82,7 @@
   width: 250px;
 }
 
-.g-legend .g-democrat.g-pointer {
+.g-legend .g-tagList1.g-pointer {
   position: absolute;
   left: 314px;
   text-align: right;
@@ -98,17 +98,17 @@
   margin: 0 3px;
 }
 
-.g-republican.g-swatch {
+.g-tagList2.g-swatch {
   background-color: #f9caca;
   border-radius: 0 4px 4px 0;
 }
 
-.g-democrat.g-swatch {
+.g-tagList1.g-swatch {
   background-color: #c5d7ea;
   border-radius: 4px 0 0 4px;
 }
 
-.g-republican.g-swatch {
+.g-tagList2.g-swatch {
   background-color: #f9caca;
 }
 
@@ -151,29 +151,29 @@
   padding: 10px;
 }
 
-.g-node .g-democrat {
+.g-node .g-tagList1 {
   fill: #c5d7ea;
 }
 
-.g-node.g-hover .g-democrat {
+.g-node.g-hover .g-tagList1 {
   fill: #acbed1; /* darker(.5) */
 }
 
-.g-node.g-selected .g-democrat {
+.g-node.g-selected .g-tagList1 {
   fill: #99c0e5; /* c *= 2, darker(.5) */
   stroke: #6081a3; /* c *= 2, darker(2) */
   stroke-width: 1.5px;
 }
 
-.g-node .g-republican {
+.g-node .g-tagList2 {
   fill: #f9caca;
 }
 
-.g-node.g-hover .g-republican {
+.g-node.g-hover .g-tagList2 {
   fill: #dfb1b1; /* darker(.5) */
 }
 
-.g-node.g-selected .g-republican {
+.g-node.g-selected .g-tagList2 {
   fill: #fda4a7; /* c *= 2, darker(.5) */
   stroke: #af5e61; /* c *= 2, darker(2) */
   stroke-width: 1.5px;
@@ -236,11 +236,11 @@ a.g-label {
   text-align: center;
 }
 
-.g-mentions.g-democrat h3 {
+.g-mentions.g-tagList1 h3 {
   margin-left: 140px;
 }
 
-.g-mentions.g-republican h3 {
+.g-mentions.g-tagList2 h3 {
   margin-right: 140px;
 }
 
@@ -250,12 +250,12 @@ a.g-label {
   border-top: solid 1px #ccc;
 }
 
-.g-mentions.g-democrat {
+.g-mentions.g-tagList1 {
   margin: 0 0 0 20px;
   float: left;
 }
 
-.g-mentions.g-republican {
+.g-mentions.g-tagList2 {
   margin: 0 20px 0 0;
   float: right;
 }
@@ -278,11 +278,11 @@ a.g-label {
   line-height: 1.40em;
 }
 
-.g-democrat .g-mention p {
+.g-tagList1 .g-mention p {
   margin: 1.5em 0 1.5em 160px;
 }
 
-.g-republican .g-mention p {
+.g-tagList2 .g-mention p {
   margin: 1.5em 140px 1.5em 20px;
 }
 
@@ -292,12 +292,12 @@ a.g-label {
   text-decoration: none;
 }
 
-.g-democrat a {
+.g-tagList1 a {
   background-color: #c5d7ea;
   color: #4a5783;
 }
 
-.g-republican a {
+.g-tagList2 a {
   background-color: #fbdedf;
   color: #734143;
 }
@@ -335,14 +335,14 @@ a.g-label {
   width: 125px;
 }
 
-.g-democrat .g-speaker,
-.g-democrat .g-speaker-title {
+.g-tagList1 .g-speaker,
+.g-tagList1 .g-speaker-title {
   float: left;
   text-align: left;
 }
 
-.g-republican .g-speaker,
-.g-republican .g-speaker-title {
+.g-tagList2 .g-speaker,
+.g-tagList2 .g-speaker-title {
   float: right;
   text-align: right;
 }

@@ -178,23 +178,23 @@ function updateNodes() {
       .call(force.drag)
       .call(linkCommonTag);
 
-  var democratEnter = nodeEnter.append("g")
-      .attr("class", "g-democrat");
+  var tagList1Enter = nodeEnter.append("g")
+      .attr("class", "g-tagList1");
 
-  democratEnter.append("clipPath")
-      .attr("id", function(d) { return "g-clip-democrat-" + d.id; })
+  tagList1Enter.append("clipPath")
+      .attr("id", function(d) { return "g-clip-tagList1-" + d.id; })
     .append("rect");
 
-  democratEnter.append("circle");
+  tagList1Enter.append("circle");
 
-  var republicanEnter = nodeEnter.append("g")
-      .attr("class", "g-republican");
+  var tagList2Enter = nodeEnter.append("g")
+      .attr("class", "g-tagList2");
 
-  republicanEnter.append("clipPath")
-      .attr("id", function(d) { return "g-clip-republican-" + d.id; })
+  tagList2Enter.append("clipPath")
+      .attr("id", function(d) { return "g-clip-tagList2-" + d.id; })
     .append("rect");
 
-  republicanEnter.append("circle");
+  tagList2Enter.append("circle");
 
   nodeEnter.append("line")
       .attr("class", "g-split");
@@ -203,21 +203,21 @@ function updateNodes() {
       .attr("y", function(d) { return -d.r - clipPadding; })
       .attr("height", function(d) { return 2 * d.r + 2 * clipPadding; });
 
-  node.select(".g-democrat rect")
+  node.select(".g-tagList1 rect")
       .style("display", function(d) { return d.k > 0 ? null : "none" })
       .attr("x", function(d) { return -d.r - clipPadding; })
       .attr("width", function(d) { return 2 * d.r * d.k + clipPadding; });
 
-  node.select(".g-republican rect")
+  node.select(".g-tagList2 rect")
       .style("display", function(d) { return d.k < 1 ? null : "none" })
       .attr("x", function(d) { return -d.r + 2 * d.r * d.k; })
       .attr("width", function(d) { return 2 * d.r; });
 
-  node.select(".g-democrat circle")
-      .attr("clip-path", function(d) { return d.k < 1 ? "url(#g-clip-democrat-" + d.id + ")" : null; });
+  node.select(".g-tagList1 circle")
+      .attr("clip-path", function(d) { return d.k < 1 ? "url(#g-clip-tagList1-" + d.id + ")" : null; });
 
-  node.select(".g-republican circle")
-      .attr("clip-path", function(d) { return d.k > 0 ? "url(#g-clip-republican-" + d.id + ")" : null; });
+  node.select(".g-tagList2 circle")
+      .attr("clip-path", function(d) { return d.k > 0 ? "url(#g-clip-tagList2-" + d.id + ")" : null; });
 
   node.select(".g-split")
       .attr("x1", function(d) { return -d.r + 2 * d.r * d.k; })
