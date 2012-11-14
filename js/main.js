@@ -20,7 +20,8 @@ var query;
 var query1,query2;
 var tweets;
 var width = 960, height = 700;
-var tempHash = [];
+
+
 
     // =================================================================
     // FUNCTIONS FOR GETTING TWEETS
@@ -39,18 +40,19 @@ var tempHash = [];
             //check to see if we get a response
             if(tweets.length == 0)
             {
-                $('#query').append(query + ' does not have any tweets.');
+                $('#errorMsg').append(query + ' does not have any tweets.');
                     
             }
             // if we get a response, fill in the tags
             else 
             {  
                 $('#query').prepend(query);
-                $('#relatedTags').show();
 
                 if(input==0)
                 {
                     query1 = query;
+                    hashtxt=[];
+                    hash =[];
                     for(var i = 0; i < tweets.length; i++)
                     {
                         hash.push(tweets[i].entities.hashtags);
@@ -67,9 +69,8 @@ var tempHash = [];
                         }
                     }
 
-                    tempHash = hashtxt;
 
-                    console.log("hashtxt loop1");
+                    console.log("hashtxt ");
                     console.log(hashtxt);
                     //hashtxt.sort();
                 }
@@ -77,6 +78,8 @@ var tempHash = [];
                 if(input==1)
                 {
                     query2 = query;
+                    hashtxt1=[];
+                    hash1=[];
                     for(var i1 = 0; i1 < tweets.length; i1++)
                     {
                         hash1.push(tweets[i1].entities.hashtags);
@@ -93,10 +96,12 @@ var tempHash = [];
                             }  
                         }
                     }
+                    console.log("hashtxt1 ");
+                    console.log(hashtxt1);
                         
-                    //hashtxt1.sort();
+                    // Preparing data for Visualization
                                         
-                    var hashTemp=tempHash.concat(hashtxt1)
+                    var hashTemp=hashtxt.concat(hashtxt1)
 
                     var x, len = hashTemp.length, hashAll = [], obj = {};
                         
@@ -106,8 +111,10 @@ var tempHash = [];
                     for (x in obj) {
                         hashAll.push(x);
                     }
-
-                    visualizeBubble(tempHash,hashtxt1,hashAll);
+                    // calling function for d3 visualization of tags 
+                    if (hashtxt && hashtxt1){
+                    visualizeBubble(hashtxt,hashtxt1,hashAll);
+                  }
                 }
             }   
         });      
@@ -120,17 +127,22 @@ var tempHash = [];
    
     $('#showme').on('click',function(e){
 
+      hashtxt, hashtxt1=[],[];
+      if(!($('#searchField').val()) || !($('#searchField1').val())){
+        $('#errorMsg').append('Please enter both the tag words');
+        return;
+      }
+
+        $('#g-nodes').empty();
+        $('#g-labels').empty();
+
         $('#searchField').blur();
-        $('#query').empty();
-        $('#relatedTags').hide();
         query = $('#searchField').val();
         query = query.toLowerCase();            
         $('#tags').empty();
         getTweets(0);
 
         $('#searchField1').blur();
-        $('#query').empty();
-        $('#relatedTags').hide();
         query = $('#searchField1').val();
         query = query.toLowerCase();            
         $('#tags1').empty();
@@ -139,16 +151,6 @@ var tempHash = [];
         visualizeSquare();
 
     });
-
-    // Function for when user clicks on a term 
-    $(document).on('click', '.term', function(e){
-        $('#query').empty();
-        $('#relatedTags').hide();
-        var query = $(this).html();
-        getTweets(query);
-    });
-
-
 
     function visualizeSquare()
     {
