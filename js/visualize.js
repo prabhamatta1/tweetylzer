@@ -6,15 +6,15 @@ data.taglists = [];
 data.commonTags = [];
 
 data.taglist = function(name, text){
-  var p = {name: name, tags: text, id: data.taglists.length};
-  data.taglists.push(p);
-  return p;
+  var t = {name: name, tags: text, id: data.taglists.length};
+  data.taglists.push(t);
+  return t;
 }
 
 data.commonTag = function(name) {
-  var t = commonTag({name: name}, data.commonTags.length);
-  data.commonTags.push(t);
-  return t;
+  var ct = commonTag({name: name}, data.commonTags.length);
+  data.commonTags.push(ct);
+  return ct;
 };
 
 function commonTag(commonTag, i) {
@@ -83,19 +83,20 @@ var node = d3.select(".g-nodes").selectAll(".g-node"),
     label = d3.select(".g-labels").selectAll(".g-label"),
     arrow = d3.select(".g-nodes").selectAll(".g-note-arrow");
 
-d3.select(".g-nodes").append("rect")
-    .attr("class", "g-overlay")
-    .attr("width", width)
-    .attr("height", height)
-    .on("click", clear);
-
 d3.select(window)
     .on("hashchange", hashchange);
 
-d3.select("#g-form")
-    .on("submit", submit);
-
 updatecommonTags(data.commonTags);
+
+function AddCommonTag(name) {
+  commonTag = data.commonTag(name);
+  return commonTag;
+}
+
+function AddTag(name, text){
+  taglist = data.taglist(name, text);
+  return taglist;
+}
 
 // Update the known commonTags.
 function updatecommonTags(commonTags) {
@@ -111,17 +112,7 @@ function updatecommonTags(commonTags) {
   force.nodes(data.commonTags = commonTags).start();
   updateNodes();
   updateLabels();
-  tick({alpha: 0}); // synchronous update
-}
-
-function AddCommonTag(name) {
-  commonTag = data.commonTag(name);
-  return commonTag;
-}
-
-function AddTag(name, text){
-  taglist = data.taglist(name, text);
-  return taglist;
+  //tick({alpha: 0}); // synchronous update
 }
 
 // Update the displayed nodes.
@@ -132,9 +123,8 @@ function updateNodes() {
 
   var nodeEnter = node.enter().append("a")
       .attr("class", "g-node")
-      .attr("xlink:href", function(d) { return "#" + encodeURIComponent(d.name); })
-      .call(force.drag)
-      .call(linkCommonTag);
+      .attr("xlink:href", function(d) { return "#" + d.name; })
+      .call(force.drag);
 
   var tagList1Enter = nodeEnter.append("g")
       .attr("class", "g-tagList1");
@@ -195,9 +185,8 @@ function updateLabels() {
 
   var labelEnter = label.enter().append("a")
       .attr("class", "g-label")
-      .attr("href", function(d) { return "#" + encodeURIComponent(d.name); })
-      .call(force.drag)
-      .call(linkCommonTag);
+      .attr("href", function(d) { return "#" + d.name; })
+      .call(force.drag);
 
   labelEnter.append("div")
       .attr("class", "g-name")
@@ -233,13 +222,6 @@ function updateLabels() {
 
   // Compute the height of labels when wrapped.
   label.each(function(d) { d.dy = this.getBoundingClientRect().height; });
-}
-
-// Assign event handlers to commonTag links.
-function linkCommonTag(a) {
-  a   .on("click", click)
-      .on("mouseover", mouseover)
-      .on("mouseout", mouseout);
 }
 
 // Simulate forces and update node and label positions on tick.
@@ -289,18 +271,6 @@ function collide(alpha) {
   };
 }
 
-// Fisher–Yates shuffle.
-function shuffle(array) {
-  var m = array.length, t, i;
-  while (m) {
-    i = Math.floor(Math.random() * m--);
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
-  }
-  return array;
-}
-
 // Given two quantities a and b, returns the fraction to split the circle a + b.
 function fraction(a, b) {
   var k = a / (a + b);
@@ -323,28 +293,9 @@ function hashchange() {
 // Trigger a hashchange on submit.
 function submit() {
   var name = this.search.value.trim();
-  location.hash = name ? encodeURIComponent(name) : "!";
+  location.hash = name ? (name) : "!";
   this.search.value = "";
   d3.event.preventDefault();
-}
-
-// Clear the active commonTag when clicking on the chart background.
-function clear() {
-  location.replace("#!");
-}
-
-// Rather than flood the browser history, use location.replace.
-function click(d) {
-  location.replace("#" + encodeURIComponent(d === activeCommonTag ? "!" : d.name));
-  d3.event.preventDefault();
-}
-
-function mouseover(d) {
-  node.classed("g-hover", function(p) { return p === d; });
-}
-
-function mouseout(d) {
-  node.classed("g-hover", false);
 }
 
 };
