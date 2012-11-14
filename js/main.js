@@ -105,12 +105,41 @@ var width = 960, height = 700;
 
                     var x, len = hashTemp.length, hashAll = [], obj = {};
                         
-                    for (x = 0; x < len; x++) {
+                    /*for (x = 0; x < len; x++) {
                         obj[hashTemp[x]] = 0;
+                    }*/
+
+                    var hashTemp1 = [];
+                    var hashFreq = {};
+
+                    for (var i=0; i < hashTemp.length; i++)
+                    {
+                      if ($.inArray(hashTemp[i], hashTemp1)==-1)
+                      {
+                        hashTemp1.push(hashTemp[i]);
+                        hashFreq[hashTemp[i]]=1;
+                      }
+                      else
+                      {
+                        hashFreq[hashTemp[i]]+=1;
+                      }
                     }
-                    for (x in obj) {
+                    console.log("t");
+                    console.log(hashTemp1);
+                    console.log(hashFreq);
+
+
+                    for (x in hashFreq) 
+                    {
+                      if (hashFreq[x] > 1)
+                      {
                         hashAll.push(x);
+                      }                        
                     }
+                    console.log("u");
+                    console.log(hashAll);
+
+
                     // calling function for d3 visualization of tags 
                     if (hashtxt && hashtxt1){
                     visualizeBubble(hashtxt,hashtxt1,hashAll);
