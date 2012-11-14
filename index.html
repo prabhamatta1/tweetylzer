@@ -30,16 +30,15 @@
                     </li>
                 </ul>
             </div>
-            <button id="showme" class="active offset1">Analyse Tags</button>
-            <hr>
+            <button id="showme" class="btn offset1">Analyse Tags</button>
             <div id="errorMsg"></div>
       
 
             <hr>
             <div id="g-chart"> <!--data visualization-->
                 <div class="g-legend" style="position:absolute;width:900px;"></div>
-                <div class="g-labels"></div>
-                <svg class="g-nodes" width="970" height="540"></svg>
+                <div class="g-labels" id="g-labels-clear"></div>
+                <svg class="g-nodes" id="g-nodes-clear" width="970" height="540"></svg>
             </div>
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
             <script>

@@ -39,6 +39,10 @@ function commonTag(commonTag, i) {
 
 function visualizeBubble(taglist1,taglist2,tagAll) {
 
+data.taglists = [];
+
+data.commonTags = [];
+
 var width = 970, height = 540;
 
 var collisionPadding = 12,
