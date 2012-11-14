@@ -71,8 +71,8 @@ var width = 960, height = 700;
                     }
 
 
-                    console.log("hashtxt ");
-                    console.log(hashtxt);
+                    /*console.log("hashtxt ");
+                    console.log(hashtxt);*/
                     //hashtxt.sort();
 				 for (var x=0; x < hashtxt.length; x++)
                     {
@@ -114,8 +114,8 @@ var width = 960, height = 700;
                             }  
                         }
                     }
-                    console.log("hashtxt1 ");
-                    console.log(hashtxt1);
+                    /*console.log("hashtxt1 ");
+                    console.log(hashtxt1);*/
                         
                     // Preparing data for Visualization
 					//hashtxt1.sort();
@@ -160,9 +160,9 @@ var width = 960, height = 700;
                         hashFreq[hashTemp[i]]+=1;
                       }
                     }
-                    console.log("t");
+                    /*console.log("t");
                     console.log(hashTemp1);
-                    console.log(hashFreq);
+                    console.log(hashFreq);*/
 
 
                     for (x in hashFreq) 
@@ -175,8 +175,8 @@ var width = 960, height = 700;
                    
 
                      jQuery.unique(hashAll); // remove duplicates
-                    console.log(hashAll.length);
-                    console.log(hashAll);
+                    /*console.log(hashAll.length);
+                    console.log(hashAll);*/
 
                     // calling function for d3 visualization of tags 
                     if (hashtxt.length===0 || hashtxt1.length===0){
@@ -308,7 +308,7 @@ var width = 960, height = 700;
             z = d3.scale.linear().domain([0, 4]).clamp(true),
             c = d3.scale.category10().domain(d3.range(10));
 
-        var svg = d3.select("vizualizeSquare").append("svg")
+        var svg = d3.select("body").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .style("margin-left", 100 + "px")
