@@ -24,7 +24,7 @@ var width = 960, height = 700;
 
 
     // =================================================================
-    // FUNCTIONS FOR GETTING TWEETS
+    // FUNCTIONS FOR ANALYZING TWEETS
     // =================================================================
 
 
@@ -34,7 +34,6 @@ var width = 960, height = 700;
         var tweetURL =  'http://search.twitter.com/search.json?q=%23' + query + '&callback=?&include_entities=true&rpp=100';
 
         //get tweets and process
-
         $.getJSON(tweetURL, function(json){
             tweets = json.results;
             //check to see if we get a response
@@ -74,9 +73,8 @@ var width = 960, height = 700;
                     /*console.log("hashtxt ");
                     console.log(hashtxt);*/
                     //hashtxt.sort();
-				 for (var x=0; x < hashtxt.length; x++)
-                    {
-                       
+        				 for (var x=0; x < hashtxt.length; x++)
+                 {  
                         if ($.inArray(hashtxt[x], tagArray)==-1)
                         {
                             tagArray.push(hashtxt[x]);
@@ -88,9 +86,7 @@ var width = 960, height = 700;
                         }
                                         
                     }
-				//	console.log("rohan1");
-				//	console.log(tagArray);
-				//	console.log(tagFreq);
+
                 }
 
                 if(input==1)
@@ -114,11 +110,10 @@ var width = 960, height = 700;
                             }  
                         }
                     }
-                    /*console.log("hashtxt1 ");
-                    console.log(hashtxt1);*/
+ 
                         
                     // Preparing data for Visualization
-					//hashtxt1.sort();
+
                     for (var x1=0; x1 < hashtxt1.length; x1++)
                     {
                        
@@ -133,9 +128,7 @@ var width = 960, height = 700;
                         }
                                         
                     } 
-				//	console.log("rohan");
-				//	console.log(tagArray1);
-				//	console.log(tagFreq1);
+
                                         
                     var hashTemp=hashtxt.concat(hashtxt1)
 
@@ -172,22 +165,23 @@ var width = 960, height = 700;
                         hashAll.push(x);
                       }                        
                     }
-                   
+                    
+                    // remove duplicates
+                    jQuery.unique(hashAll); 
 
-                     jQuery.unique(hashAll); // remove duplicates
                     /*console.log(hashAll.length);
                     console.log(hashAll);*/
 
-                    // calling function for d3 visualization of tags 
+                    // calling function for D3 Visualization 
                     if (hashtxt.length===0 || hashtxt1.length===0){
                       console.log(" one of the hashtxt is empty");
                     
-                  }
-                  else{
-                    visualizeBubble(hashtxt,hashtxt1,hashAll);
-					
-					visualizeSquare();
-                  }
+                    }
+                    else{
+
+                      visualizeBubble(hashtxt,hashtxt1,hashAll);
+            					visualizeSquare();
+                    }
                 }
             }   
         });      
@@ -195,7 +189,7 @@ var width = 960, height = 700;
 
 
     // =================================================================
-    // EVENT FUNCTIONS
+    // EVENT FUNCTIONS WHEN ANALYZE_TWEETS BUTTON IS PRESSED
     // =================================================================
    
     $('#showme').on('click',function(e){
@@ -232,77 +226,78 @@ var width = 960, height = 700;
 
     });
 
+    // Function to show Matrix visualization
     function visualizeSquare()
     {
 
         var ftag = {}; //common tag array
-	var alltag = {}; // alltag array
-	var count=0;
-	var ntxt="";
-	console.log(tagFreq);
-	console.log(tagFreq1);
-	for (t1 in tagFreq)
-	{
-		for(t2 in tagFreq1)
-		{
-			if(t1.valueOf()==t2.valueOf())
-				{
-			//	alert("common tag"+t2);		
-				if(tagFreq1[t2]>tagFreq[t1])
-				ftag[t2] = tagFreq[t2];
-				else
-				ftag[t2] = tagFreq[t1];
-				}
-				
-		}
-	
-	}
-	for (tx in tagFreq)
-	{
-		alltag[tx]=tagFreq[tx]; // add all tags for first word
-	}
-	console.log("tag for 1");
-	console.log(alltag);
-	
-	for(t2 in tagFreq1)
-	{		
-	alltag[t2] = tagFreq1[t2];
-	}
-				
-		
-	console.log("data after 2 added");	
-	console.log(alltag);
+      	var alltag = {}; // alltag array
+      	var count=0;
+      	var ntxt="";
+      	console.log(tagFreq);
+      	console.log(tagFreq1);
+      	for (t1 in tagFreq)
+      	{
+      		for(t2 in tagFreq1)
+      		{
+      			if(t1.valueOf()==t2.valueOf())
+      				{
+      			//	alert("common tag"+t2);		
+      				if(tagFreq1[t2]>tagFreq[t1])
+      				ftag[t2] = tagFreq[t2];
+      				else
+      				ftag[t2] = tagFreq[t1];
+      				}
+      				
+      		}
+      	
+      	}
+      	for (tx in tagFreq)
+      	{
+      		alltag[tx]=tagFreq[tx]; // add all tags for first word
+      	}
+      	console.log("tag for 1");
+      	console.log(alltag);
+      	
+      	for(t2 in tagFreq1)
+      	{		
+      	alltag[t2] = tagFreq1[t2];
+      	}
+      				
+      		
+      	console.log("data after 2 added");	
+      	console.log(alltag);
 
-	console.log("final data");
-	console.log(ftag);
-		
-	var linktxt1="";
-	for(var q in ftag)
-	{
-	ntxt = ntxt +'{ "name":"'+q+'" , "group":"'+count+'" },';
-	linktxt1 = linktxt1 +'{ "source":"'+count+'" , "target":"'+count+'" , "value":"'+ftag[q]+'" },'
-	count++;
-	}
-	var ntxt1 = ntxt.slice(0,ntxt.length-1);
-	var ntxt2 = linktxt1.slice(0,linktxt1.length-1);
-	//console.log(ntxt1);
-	var nodetxt = '{ "name":"rohan" , "group":"0" },{ "name":"Anna" , "group":"1" }';
-	//console.log(nt	xt+','+nodetxt);
+      	console.log("final data");
+      	console.log(ftag);
+      		
+      	var linktxt1="";
+      	for(var q in ftag)
+      	{
+      	ntxt = ntxt +'{ "name":"'+q+'" , "group":"'+count+'" },';
+      	linktxt1 = linktxt1 +'{ "source":"'+count+'" , "target":"'+count+'" , "value":"'+ftag[q]+'" },'
+      	count++;
+      	}
+      	var ntxt1 = ntxt.slice(0,ntxt.length-1);
+      	var ntxt2 = linktxt1.slice(0,linktxt1.length-1);
+      	//console.log(ntxt1);
+      	var nodetxt = '{ "name":"rohan" , "group":"0" },{ "name":"Anna" , "group":"1" }';
+      	//console.log(nt	xt+','+nodetxt);
+      	
+      	var linktxt = '{"source":0,"target":0,"value":4},{"source":4,"target":4,"value":7}';
+      	console.log("todo");
+      	console.log(linktxt);
+      	console.log(ntxt2);
+      	
+      	var txt = '{ "nodes" : [' + ntxt1 +'],"links":['+ ntxt2 +']}';
+      	//console.log(txt);
+      	
 	
-	var linktxt = '{"source":0,"target":0,"value":4},{"source":4,"target":4,"value":7}';
-	console.log("todo");
-	console.log(linktxt);
-	console.log(ntxt2);
-	
-	var txt = '{ "nodes" : [' + ntxt1 +'],"links":['+ ntxt2 +']}';
-	//console.log(txt);
-	
-	
-	var jsontag = jQuery.parseJSON(txt);
+      	var jsontag = jQuery.parseJSON(txt);
         var margin = {top: 80, right: 0, bottom: 10, left: 80},
 
-			width = 900	,
-            height = 900;
+  			width = 900	,
+        height = 900;
 
         var x = d3.scale.ordinal().rangeBands([0, width]),
             z = d3.scale.linear().domain([0, 4]).clamp(true),
@@ -440,105 +435,5 @@ var width = 960, height = 700;
 
 
     }
-
-    // d3 visualization of tags
-
-    var svg = d3.select("#map").append("svg")
-        .attr("width", width)
-        .attr("height", height);
-
-    var force = d3.layout.force()
-        .gravity(.05)
-        .distance(100)
-        .charge(-100)
-        .size([width, height]);
-
-    function getMap(query1,tagFreq1,query2,tagFreq2,tagCommon){
-        var data ={};
-        var nodept = [];
-        var linkpt = [];
-        nodedict ={};
-        nodedict["name"]=  query1;
-        nodedict["group"]=  1;
-        nodept.push(nodedict);
-        linkdict ={};
-        linkdict["value"] = 1;
-        linkdict["target"] = 0;
-        linkdict["source"] = 1;
-        linkpt.push(linkdict);
-
-        var i=0;
-        for (key1 in tagFreq1){
-
-            nodedict ={};
-            nodedict["name"]=  key1;
-            nodedict["group"]=  1;
-            nodept.push(nodedict);
-            linkdict ={};
-            linkdict["value"] = (i+1) *2;
-            linkdict["target"] = 0
-
-            if (i<tagFreq1.length)
-            {
-              linkdict["source"] = i+1;
-            }
-            else
-            {
-              linkdict["source"] = i;
-            } 
-            linkpt.push(linkdict);
-            i += 1;
-
-          }
-      data["nodes"] = nodept;
-      data["links"] = linkpt;
-      generategraph(data);
-       
-    };
-
-    //generate word-map graph from the data
-    function generategraph(json) {
-
-        force
-        .nodes(json.nodes)
-        .links(json.links)
-        .start();
-
-        var link = svg.selectAll(".link")
-        .data(json.links)
-        .enter().append("line")
-        .attr("class", "link")
-        .attr("stroke-width", 2)
-        .attr("stroke", "#3a3a3d");
-
-        var node = svg.selectAll(".node")
-        .data(json.nodes)
-        .enter().append("g")
-        .attr("class", "node")        
-        .call(force.drag);
-
-        node.append("image")
-        .attr("xlink:href", "img/circle.png")
-        .attr("x", -8)
-        .attr("y", -8)
-        .attr("width", 16)
-        .attr("height", 16);
-
-        node.append("text")
-        .attr("class", "term")
-        .attr("dx", 12)
-        .attr("dy", 7)
-        .on("click", function(d){ mapclick(d.name);})
-        .text(function(d) { return d.name });
-
-        force.on("tick", function() {
-            link.attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
-
-            node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-        });
-    };
             
 });
