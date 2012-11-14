@@ -94,7 +94,7 @@ function AddTag(name, text){
 // Update the known commonTags.
 function updatecommonTags(commonTags) {
   commonTags.forEach(function(d) {
-    d.r = r(d.count);
+    d.r = r(d.count) + 7;
     d.cr = Math.max(minRadius, d.r);
     d.k = fraction(d.taglists[0].count, d.taglists[1].count);
     if (isNaN(d.k)) d.k = .5;
@@ -105,7 +105,6 @@ function updatecommonTags(commonTags) {
   force.nodes(data.commonTags = commonTags).start();
   updateNodes();
   updateLabels();
-  //tick({alpha: 0}); // synchronous update
 }
 
 // Update the displayed nodes.
@@ -122,7 +121,7 @@ function updateNodes() {
 
   tagList1Enter.append("clipPath")
       .attr("id", function(d) { return "g-clip-tagList1-" + d.id; })
-    .append("rect");
+      .append("rect");
 
   tagList1Enter.append("circle");
 
@@ -157,7 +156,7 @@ function updateNodes() {
       .attr("clip-path", function(d) { return d.k > 0 ? "url(#g-clip-tagList2-" + d.id + ")" : null; });
 
   node.selectAll("circle")
-      .attr("r", function(d) { return r(d.count); });
+      .attr("r", function(d) { return r(d.count) + 5; });
 }
 
 // Update the displayed node labels.
