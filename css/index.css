@@ -4,7 +4,6 @@
 }
 
 .g-legend {
-  color: #999;
   font: 11px/1.3em sans-serif;
   height: 30px;
   margin-top: 15px;
@@ -17,15 +16,14 @@
 }
 
 .g-node .g-tagList1 {
-  fill: #c5d7ea;
+  fill: #9f81f7;
 }
 
 .g-node .g-tagList2 {
-  fill: #f9caca;
+  fill: #bca9f5;
 }
 
 a.g-label {
-  color: inherit;
   cursor: pointer;
   display: block;
   text-align: center;
@@ -45,12 +43,3 @@ a.g-label {
   -webkit-tap-highlight-color: transparent;
 }
 
-.g-tagList1 a {
-  background-color: #c5d7ea;
-  color: #4a5783;
-}
-
-.g-tagList2 a {
-  background-color: #fbdedf;
-  color: #734143;
-}
