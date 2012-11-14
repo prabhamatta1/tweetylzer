@@ -39,17 +39,14 @@ function commonTag(commonTag, i) {
 
 function visualizeBubble(taglist1,taglist2,tagAll) {
 
-var width = 970,
-    height = 540;
+var width = 970, height = 540;
 
-var collisionPadding = 4,
-    clipPadding = 4,
+var collisionPadding = 12,
     minRadius = 16, // minimum collision radius
-    maxRadius = 65, // also determines collision search radius
-    activeCommonTag; // currently-displayed commonTag
+    maxRadius = 65; // also determines collision search radius
 
-tagStr1 = "";
-tagStr2 = "";
+var tagStr1 = "";
+var tagStr2 = "";
 
 for (var i=0; i < taglist1.length; i++)
 {
@@ -75,16 +72,12 @@ var r = d3.scale.sqrt()
     .range([0, maxRadius]);
 
 var force = d3.layout.force()
-    .charge(0)
-    .size([width, height - 80])
+    .size([width, height])
     .on("tick", tick);
 
 var node = d3.select(".g-nodes").selectAll(".g-node"),
     label = d3.select(".g-labels").selectAll(".g-label"),
     arrow = d3.select(".g-nodes").selectAll(".g-note-arrow");
-
-d3.select(window)
-    .on("hashchange", hashchange);
 
 updatecommonTags(data.commonTags);
 
@@ -122,9 +115,7 @@ function updateNodes() {
   node.exit().remove();
 
   var nodeEnter = node.enter().append("a")
-      .attr("class", "g-node")
-      .attr("xlink:href", function(d) { return "#" + d.name; })
-      .call(force.drag);
+      .attr("class", "g-node");
 
   var tagList1Enter = nodeEnter.append("g")
       .attr("class", "g-tagList1");
@@ -148,16 +139,14 @@ function updateNodes() {
       .attr("class", "g-split");
 
   node.selectAll("rect")
-      .attr("y", function(d) { return -d.r - clipPadding; })
-      .attr("height", function(d) { return 2 * d.r + 2 * clipPadding; });
+      .attr("y", function(d) { return -d.r; })
+      .attr("height", function(d) { return 2 * d.r; });
 
   node.select(".g-tagList1 rect")
-      .style("display", function(d) { return d.k > 0 ? null : "none" })
-      .attr("x", function(d) { return -d.r - clipPadding; })
-      .attr("width", function(d) { return 2 * d.r * d.k + clipPadding; });
+      .attr("x", function(d) { return -d.r; })
+      .attr("width", function(d) { return 2 * d.r * d.k; });
 
   node.select(".g-tagList2 rect")
-      .style("display", function(d) { return d.k < 1 ? null : "none" })
       .attr("x", function(d) { return -d.r + 2 * d.r * d.k; })
       .attr("width", function(d) { return 2 * d.r; });
 
@@ -166,12 +155,6 @@ function updateNodes() {
 
   node.select(".g-tagList2 circle")
       .attr("clip-path", function(d) { return d.k > 0 ? "url(#g-clip-tagList2-" + d.id + ")" : null; });
-
-  node.select(".g-split")
-      .attr("x1", function(d) { return -d.r + 2 * d.r * d.k; })
-      .attr("y1", function(d) { return -Math.sqrt(d.r * d.r - Math.pow(-d.r + 2 * d.r * d.k, 2)); })
-      .attr("x2", function(d) { return -d.r + 2 * d.r * d.k; })
-      .attr("y2", function(d) { return Math.sqrt(d.r * d.r - Math.pow(-d.r + 2 * d.r * d.k, 2)); });
 
   node.selectAll("circle")
       .attr("r", function(d) { return r(d.count); });
@@ -185,8 +168,7 @@ function updateLabels() {
 
   var labelEnter = label.enter().append("a")
       .attr("class", "g-label")
-      .attr("href", function(d) { return "#" + d.name; })
-      .call(force.drag);
+      .attr("href", function(d) { return "#" + d.name; });
 
   labelEnter.append("div")
       .attr("class", "g-name")
@@ -288,14 +270,6 @@ function fraction(a, b) {
 // Update the active commonTag on hashchange, perhaps creating a new commonTag.
 function hashchange() {
   var name = decodeURIComponent(location.hash.substring(1)).trim();
-}
-
-// Trigger a hashchange on submit.
-function submit() {
-  var name = this.search.value.trim();
-  location.hash = name ? (name) : "!";
-  this.search.value = "";
-  d3.event.preventDefault();
 }
 
 };
