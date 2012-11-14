@@ -9,7 +9,7 @@ data.taglist = function(name, text){
   var t = {name: name, tags: text, id: data.taglists.length};
   data.taglists.push(t);
   return t;
-}
+};
 
 data.commonTag = function(name) {
   var ct = commonTag({name: name}, data.commonTags.length);
@@ -42,8 +42,8 @@ function visualizeBubble(taglist1,taglist2,tagAll) {
 var width = 970, height = 540;
 
 var collisionPadding = 12,
-    minRadius = 16, // minimum collision radius
-    maxRadius = 65; // also determines collision search radius
+    minRadius = 20, // minimum collision radius
+    maxRadius = 75; // also determines collision search radius
 
 var tagStr1 = "";
 var tagStr2 = "";
@@ -256,20 +256,7 @@ function collide(alpha) {
 // Given two quantities a and b, returns the fraction to split the circle a + b.
 function fraction(a, b) {
   var k = a / (a + b);
-  if (k > 0 && k < 1) {
-    var t0, t1 = Math.pow(12 * k * Math.PI, 1 / 3);
-    for (var i = 0; i < 10; ++i) { // Solve for theta numerically.
-      t0 = t1;
-      t1 = (Math.sin(t0) - t0 * Math.cos(t0) + 2 * k * Math.PI) / (1 - Math.cos(t0));
-    }
-    k = (1 - Math.cos(t1 / 2)) / 2;
-  }
   return k;
-}
-
-// Update the active commonTag on hashchange, perhaps creating a new commonTag.
-function hashchange() {
-  var name = decodeURIComponent(location.hash.substring(1)).trim();
 }
 
 };
