@@ -6,8 +6,8 @@ This visualization provides Social classification of two different twitter tags 
 
 Team Members
 -----------------
-Prabhavathi Matta
-Rohan Salantry
+Prabhavathi Matta,
+Rohan Salantry,
 Haroon Rasheed 
 
 <!-- Team member responsibilities (i.e. what each person did on the project) -->
@@ -21,7 +21,7 @@ Haroon Rasheed
 * Haroon Rasheed (haroon@ischool.berkeley.edu)
     - Tag Analyzation, Square Visualization 
 
- All the team has contributed to comments, code cleanup and javascript interactions.
+ All the team have contributed to comments, code cleanup and javascript interactions.
 
 
 
