@@ -136,12 +136,18 @@ var width = 960, height = 700;
                         hashAll.push(x);
                       }                        
                     }
-                    console.log("u");
+                   
+
+                     jQuery.unique(hashAll); // remove duplicates
+                    console.log(hashAll.length);
                     console.log(hashAll);
 
-
                     // calling function for d3 visualization of tags 
-                    if (hashtxt && hashtxt1){
+                    if (hashtxt.length===0 || hashtxt1.length===0){
+                      console.log(" one of the hashtxt is empty");
+                    
+                  }
+                  else{
                     visualizeBubble(hashtxt,hashtxt1,hashAll);
                   }
                 }
@@ -168,13 +174,13 @@ var width = 960, height = 700;
         $('#searchField').blur();
         query = $('#searchField').val();
         query = query.toLowerCase();            
-        $('#tags').empty();
+        // $('#tags').empty();
         getTweets(0);
 
         $('#searchField1').blur();
         query = $('#searchField1').val();
         query = query.toLowerCase();            
-        $('#tags1').empty();
+        // $('#tags1').empty();
         getTweets(1);
 
         visualizeSquare();
@@ -201,7 +207,7 @@ var width = 960, height = 700;
             z = d3.scale.linear().domain([0, 4]).clamp(true),
             c = d3.scale.category10().domain(d3.range(10));
 
-        var svg = d3.select("body").append("svg")
+        var svg = d3.select("vizualizeSquare").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .style("margin-left", 100 + "px")
