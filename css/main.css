@@ -22,11 +22,11 @@ typography
 	font-size:3.125em;color:#3D4S2F;
 }
 
-a:link{color:#37abc8}
-a:hover{color:#2a8399}
-a:active{color:#333}
-a:visited{color:#37abc8}
-a:visited:hover{color:#2a8399}
+a:link{color:#3b0b0b}
+a:hover{color:#3b0b0b}
+a:active{color:#3b0b0b}
+a:visited{color:#3b0b0b}
+a:visited:hover{color:#3b0b0b}
 
 #body{
 	font-family:Antic,arial,'helvetica neue',helvetica,sans-serif;
@@ -45,7 +45,7 @@ a:visited:hover{color:#2a8399}
 }
 #errorMsg{
     font-weight: bold;
-    color:red;
+    color:#3b0b0b;
 }
 
 svg {
