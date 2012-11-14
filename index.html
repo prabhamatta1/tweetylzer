@@ -1,91 +1,53 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Social Classification</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Social Classification of Twitter Tags">
-    <meta name="author" content="Haroon, Prabha, Rohan">
-
-    <!-- Le styles -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet">
-    <link href="css/index.css" rel="stylesheet">
-
     
+    <head>
+        <meta charset="utf-8">
+        <title>Social Classification</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Social Classification of Twitter Tags">
+        <meta name="author" content="Haroon, Prabha, Rohan">
+        <!-- Le styles -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/index.css" rel="stylesheet">
+        <link href="css/main.css" rel="stylesheet">
+        <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    </head>
     
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <body>
+        <div class="container"> <!--main container-->
+             <h2 div id="head" class="muted">Social Classification of Twitter Tags</h2>
+                <p class="lead">This visualization provides Social classification of two different twitter tags to give insight where they are common and how they are separate from each other</p>
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+            <hr>
+            <div class="masthead">
+                <ul class="nav nav-pills pull-left">
+                    <li>
+                        <input id="searchField" type="text" class="offset1" placeholder="Search for a word"></input>
+                    </li>
+                    <li>
+                        <input id="searchField1" type="text" class="offset1" placeholder="Search for a another word"></input>
+                    </li>
+                </ul>
+            </div>
+            <button id="showme" class="active offset1">Analyse Tags</button>
+            <hr>
+            <div id="errorMsg"></div>
+      
 
-    <!-- Fav and touch icons -->
-  </head>
+            <hr>
+            <div id="g-chart"> <!--data visualization-->
+                <div class="g-legend" style="position:absolute;width:900px;"></div>
+                <div class="g-labels"></div>
+                <svg class="g-nodes" width="970" height="540"></svg>
+            </div>
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+            <script>
+                window.jQuery || document.write('<script src="js/jquery-1.8.2.min.js"><\/script>')
+            </script>
+            <script src="js/d3.v2.js"></script>
+            <script src="js/visualize.js"></script>
+            <script src="js/main.js"></script>
+    </body>
 
-  <body>
-
-    <div class="container">
-      <h2 class="muted">Social Classification of Twitter Tags</h2>
-
-      <div class="masthead">
-        <ul class="nav nav-pills pull-left">
-           <li>   
-            <input id="searchField" type="text" class="offset1" placeholder="Search for a word"></input></li>
-
-          <li>
-            <input id="searchField1" type="text"  class="offset1" placeholder="Search for a another word"></input></li>
-  
-         
-        </ul>
-
-      </div>
-       <button id="showme" class="active offset1" >Analyse Tags</button>  
-        <hr>
-               
-        <h3> Tag1 (tags will be removed once the visualization works) </h3>
-        <div id="tags"></div>
-                        <h3> Tag2 </h3>
-        <div id="tags1"></div>  
-
-
-      <!-- Jumbotron -->
-        <p class="lead">This visualization provides Social classification of two different twitter tags to give insight where they are common and how they are separate from each other</p>
-     
-      <!-- Example row of columns -->
-      <hr>
-             <!-- <div id="mapContainer">
-                           <div class="g-labels"></div>
-              <svg class="g-nodes" width="970" height="540">
-</svg>
-                      </div>
-
-
-    </div>  -->
-    <!-- /container -->
-
-        <div id="g-chart">
-        <div class="g-legend" style="position:absolute;width:900px;">
-        </div>
-
-        <div class="g-labels"></div>
-        <svg class="g-nodes" width="970" height="540">
-        </svg>
-        </div>
-
- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/jquery-1.8.2.min.js"><\/script>')</script>
-
-        <script src="js/d3.v2.js"></script>
-        <script src="js/visualize.js"></script>
-        <script src="js/main.js"></script>
-
-
-        
-   
-
-  </body>
-</html>
-
+</html>​

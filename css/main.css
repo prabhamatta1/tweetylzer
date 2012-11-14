@@ -34,46 +34,21 @@ a:visited:hover{color:#2a8399}
 	line-height:1.5;
 }
 
-#mainContainer{
+#Container{
     margin: 0 20px;
 }
 
-#hashtag {
-    font-size: 30px;
-    margin: 10px 0;
+
+#head{
+    text-align: center;
+    color :purple;
 }
-
-#hashtagInput{ 
-    color: 0 solid #000000;
-    font-size: 30px;
-    font-family:Comfortaa;
-    text-align: left;
-    width: 400px;
-    float:left;
-    padding: 0 10px;
-    font-family:Antic;
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    border-radius: 25px;
+#errorMsg{
+    font-weight: bold;
+    color:red;
 }
-
-
-.tag
-{
-    padding: 5px 10px;
-    clear: both;
-    cursor: pointer;
-}
-
-.tag:hover
-{
-    background: #DDDDDD;
-}
-
 
 svg {
   background: #eee;
-/*  width: 960px;
-  height: 500px;*/
 }
 
