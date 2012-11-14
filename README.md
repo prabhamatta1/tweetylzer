@@ -11,7 +11,7 @@ We provide 2 visualizations:
 This visualization provides Social classification of two different twitter tags to give insight where they are common and how they are separate from each other
 
 
-2. Square Visualizaiton:
+2. Matrix Visualizaiton:
 When any two hash tags in twitter are entered, visualization  provides the tag counts for common and uncommon tags, along with color gradientindicating the common
 tag frequency.
 
