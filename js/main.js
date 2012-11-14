@@ -40,7 +40,8 @@ var width = 960, height = 700;
             //check to see if we get a response
             if(tweets.length == 0)
             {
-                $('#errorMsg').append(query + ' does not have any tweets.');
+                $('#errorMsg').empty();
+                $('#errorMsg').append( 'One of the Tag word does not have any tweets.');
                     
             }
             // if we get a response, fill in the tags
@@ -73,6 +74,23 @@ var width = 960, height = 700;
                     console.log("hashtxt ");
                     console.log(hashtxt);
                     //hashtxt.sort();
+				 for (var x=0; x < hashtxt.length; x++)
+                    {
+                       
+                        if ($.inArray(hashtxt[x], tagArray)==-1)
+                        {
+                            tagArray.push(hashtxt[x]);
+                            tagFreq[hashtxt[x]]=1;
+                        }
+                        else 
+                        {
+                            tagFreq[hashtxt[x]]+=1;
+                        }
+                                        
+                    }
+				//	console.log("rohan1");
+				//	console.log(tagArray);
+				//	console.log(tagFreq);
                 }
 
                 if(input==1)
@@ -100,6 +118,24 @@ var width = 960, height = 700;
                     console.log(hashtxt1);
                         
                     // Preparing data for Visualization
+					//hashtxt1.sort();
+                    for (var x1=0; x1 < hashtxt1.length; x1++)
+                    {
+                       
+                        if ($.inArray(hashtxt1[x1], tagArray1)==-1)
+                        {
+                            tagArray1.push(hashtxt1[x1]);
+                            tagFreq1[hashtxt1[x1]]=1;
+                        }
+                        else 
+                        {
+                            tagFreq1[hashtxt1[x1]]+=1;
+                        }
+                                        
+                    } 
+				//	console.log("rohan");
+				//	console.log(tagArray1);
+				//	console.log(tagFreq1);
                                         
                     var hashTemp=hashtxt.concat(hashtxt1)
 
@@ -149,6 +185,8 @@ var width = 960, height = 700;
                   }
                   else{
                     visualizeBubble(hashtxt,hashtxt1,hashAll);
+					
+					visualizeSquare();
                   }
                 }
             }   
@@ -161,8 +199,10 @@ var width = 960, height = 700;
     // =================================================================
    
     $('#showme').on('click',function(e){
+      $('#errorMsg').empty();
 
       hashtxt=[], hashtxt1=[], hashAll=[];
+
       if(!($('#searchField').val()) || !($('#searchField1').val())){
         $('#errorMsg').append('Please enter both the tag words');
         return;
@@ -188,25 +228,81 @@ var width = 960, height = 700;
         // $('#tags1').empty();
         getTweets(1);
 
-        visualizeSquare();
+        
 
     });
 
     function visualizeSquare()
     {
 
-        //prabha - can you work on creating a string using tags and counts , after which the function will display it in the grid format.
-        //nodes - appear on the x and y axis
-        //links will connect a source and target node with a specific color, here source = target with value = no of tags in common.
-             
-        var jsontag = {"nodes":[{"name":"rohan","group":0},{"name":"haroon","group":1},{"name":"prabha","group":2},{"name":"tag1","group":3},{"name":"tag2","group":4},{"name":"tag3","group":5},{"name":"tag4","group":6},{"name":"tag5","group":7},{"name":"sayantan","group":8}],
-        "links":[{"source":1,"target":1,"value":4},{"source":5,"target":5,"value":20},{"source":8,"target":8,"value":7}]};
+        var ftag = {}; //common tag array
+	var alltag = {}; // alltag array
+	var count=0;
+	var ntxt="";
+	console.log(tagFreq);
+	console.log(tagFreq1);
+	for (t1 in tagFreq)
+	{
+		for(t2 in tagFreq1)
+		{
+			if(t1.valueOf()==t2.valueOf())
+				{
+			//	alert("common tag"+t2);		
+				if(tagFreq1[t2]>tagFreq[t1])
+				ftag[t2] = tagFreq[t2];
+				else
+				ftag[t2] = tagFreq[t1];
+				}
+				
+		}
+	
+	}
+	for (tx in tagFreq)
+	{
+		alltag[tx]=tagFreq[tx]; // add all tags for first word
+	}
+	console.log("tag for 1");
+	console.log(alltag);
+	
+	for(t2 in tagFreq1)
+	{		
+	alltag[t2] = tagFreq1[t2];
+	}
+				
+		
+	console.log("data after 2 added");	
+	console.log(alltag);
 
-        jQuery.parseJSON(jsontag);
-
+	console.log("final data");
+	console.log(ftag);
+		
+	var linktxt1="";
+	for(var q in ftag)
+	{
+	ntxt = ntxt +'{ "name":"'+q+'" , "group":"'+count+'" },';
+	linktxt1 = linktxt1 +'{ "source":"'+count+'" , "target":"'+count+'" , "value":"'+ftag[q]+'" },'
+	count++;
+	}
+	var ntxt1 = ntxt.slice(0,ntxt.length-1);
+	var ntxt2 = linktxt1.slice(0,linktxt1.length-1);
+	//console.log(ntxt1);
+	var nodetxt = '{ "name":"rohan" , "group":"0" },{ "name":"Anna" , "group":"1" }';
+	//console.log(nt	xt+','+nodetxt);
+	
+	var linktxt = '{"source":0,"target":0,"value":4},{"source":4,"target":4,"value":7}';
+	console.log("todo");
+	console.log(linktxt);
+	console.log(ntxt2);
+	
+	var txt = '{ "nodes" : [' + ntxt1 +'],"links":['+ ntxt2 +']}';
+	//console.log(txt);
+	
+	
+	var jsontag = jQuery.parseJSON(txt);
         var margin = {top: 80, right: 0, bottom: 10, left: 80},
-            width = 400,
-            height = 400;
+
+			width = 900	,
+            height = 900;
 
         var x = d3.scale.ordinal().rangeBands([0, width]),
             z = d3.scale.linear().domain([0, 4]).clamp(true),
