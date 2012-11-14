@@ -57,6 +57,8 @@ D3, jQuery, Javascript, CSS3, HTML5
 
 Bugs
 ---
+Since we call two API calls for getting data for two different tags, the calls being asynchronous, sometimes we dont get both the taglists to show the visualization
+
 
 Sources
 ---
