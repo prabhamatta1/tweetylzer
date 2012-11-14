@@ -40,7 +40,8 @@ var width = 960, height = 700;
             //check to see if we get a response
             if(tweets.length == 0)
             {
-                $('#errorMsg').append(query + ' does not have any tweets.');
+                $('#errorMsg').empty();
+                $('#errorMsg').append( 'One of the Tag word does not have any tweets.');
                     
             }
             // if we get a response, fill in the tags
@@ -161,6 +162,7 @@ var width = 960, height = 700;
     // =================================================================
    
     $('#showme').on('click',function(e){
+      $('#errorMsg').empty();
 
       hashtxt, hashtxt1=[],[];
       // check if both the tags are given 
