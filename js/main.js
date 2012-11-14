@@ -163,6 +163,7 @@ var width = 960, height = 700;
     $('#showme').on('click',function(e){
 
       hashtxt, hashtxt1=[],[];
+      // check if both the tags are given 
       if(!($('#searchField').val()) || !($('#searchField1').val())){
         $('#errorMsg').append('Please enter both the tag words');
         return;
