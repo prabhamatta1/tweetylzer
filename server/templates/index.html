@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<title>URL Shortner</title>
+		<link rel="stylesheet" href="../static/css/bootstrap.css">
+		<link rel="stylesheet" href="../static/css/style.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+		<script type="text/javascript" src="../static/js/url.js"></script>
+	</head>
+	<body onload="load()">
+		<h1 id="header">URL Shortner</h1>
+		<div id="container">
+			<div id="content">
+				<form id="urlShortner" name="urlShortner" method="post" action ="/create">
+					<label for="formurl">Enter a long URL:</label>
+					<input type="text" id="formurl" name="formurl" value=""/>
+					<span id="alert"></span>
+					<label class="checkbox inline" id="checkBox" for="check">
+						<input type="checkbox" id="check" value="check"> Check this box to enter a shortpath (Optional)
+					</label>
+					<div id="shortpath">
+						<label for="formshortpath">Enter the shortpath:</label>
+						<input type="text" id="formshortpath" name="formshortpath" value=""/>
+						<span id="alertShort"></span>
+						<input type="text" id="lat" name="lat" value=""/>
+						<input type="text" id="lon" name="lon" value=""/>
+					</div>
+					<input type="submit" id="submitButton" class="btn" value="GO" disabled="disabled" />
+				</form>
+				
+			</div>
+		</div>
+		<div id="footer">
+			<p id="linkp">Info 253 Project #1 <a id="link" href="http://people.ischool.berkeley.edu/~haroon/" target="_blank">Haroon Rasheed Paul Mohamed</a>
+			</p>
+		</div>
+	</body>
+</html>

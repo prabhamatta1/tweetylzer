@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<title>URL Shortner</title>
+		<link rel="stylesheet" href="../static/css/bootstrap.css">
+		<link rel="stylesheet" href="../static/css/style.css">
+	</head>
+	<body>
+		<h1 id="header">URL Shortner</h1>
+		<div id="container">
+			<div id="content">
+				<div id="display">
+					<br>
+					<p>Use the below URL to go to {{longURL}}</p>
+					<p>{{message}}</p>
+					<br>
+					<a href="http://people.ischool.berkeley.edu/~haroon/server/{{shortPath}}" target="_blank">http://people.ischool.berkeley.edu/~haroon/server/{{shortPath}}</a>
+					<p>Number of clicks for the shortpath is: {{counts}}</p>
+					<a href="http://people.ischool.berkeley.edu/~haroon/server/"><input type="button" id="newURL" class="btn" value="Shorten another URL"></input></a>
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			<p id="linkp">Info 253 Project #1 <a id="link" href="http://people.ischool.berkeley.edu/~haroon/" target="_blank">Haroon Rasheed Paul Mohamed</a>
+			</p>
+		</div>
+	</body>
+</html>
